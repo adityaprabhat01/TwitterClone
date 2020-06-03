@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const Tweet = require('./Tweet')
 
 const UserSchema = new mongoose.Schema({
 
@@ -31,7 +32,17 @@ const UserSchema = new mongoose.Schema({
         trim: true
     },
 
-    follow: []
+    tweets: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tweet'
+    }],
+
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }],
 
 })
 

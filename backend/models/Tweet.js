@@ -1,8 +1,10 @@
 const mongoose = require('mongoose')
+const User = require('./User')
 
 const TweetSchema = new mongoose.Schema({
-    username: String,
-    tweet: String
+    tweet: {
+        type: String
+    }
 })
 
 const Tweet = mongoose.model('Tweet', TweetSchema)

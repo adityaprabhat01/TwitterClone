@@ -25,7 +25,8 @@ class LogIn extends React.Component {
 
         if (this.state.isVerified) {
             //checkpoint not yet created
-            return <Redirect to={`/profile/${this.state.verifiedUser}`} />
+            //${this.state.verifiedUser}
+            return <Redirect to={`/homepage`} />
         }
 
         return (

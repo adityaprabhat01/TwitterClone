@@ -7,7 +7,6 @@ class SignUp extends React.Component {
 
     onCreateUser = (event) => {
 
-        event.preventDefault()
 
         const newUser = {
             name: this.state.name,

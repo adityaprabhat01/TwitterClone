@@ -6,7 +6,7 @@ import Tweet from './Tweet'
 
 class Homepage extends React.Component {
 
-    state = { tweets: [] };
+    state = { tweets: [], data: '' };
     
 
     onPost = (tweetText) => {
@@ -23,6 +23,15 @@ class Homepage extends React.Component {
             
     }
 
+    myHomepage = async (event) => {
+        const response = await axios.get('http://localhost:3001/user/me')
+        this.setState({ data: response.data })
+    }
+
+    componentDidMount() {
+        window.addEventListener('load', this.myHomepage);
+     }
+
     onDelete = (event) => {
         event.target.parentElement.remove()
     }
@@ -32,6 +41,7 @@ class Homepage extends React.Component {
             <div>
                 <SearchBar className="search-bar" />
                 <Tweet onPostSubmit={this.onPost} />
+                <div>{this.state.data}</div>
                 <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} />
             </div>
         )
