@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 
 class LogIn extends React.Component {
 
-    state = { username: '', password: '', verifiedUser: '', isVerified: false }
+    state = { username: '', password: '', verifiedUser: '', isVerified: false, userId: '' }
 
     logInUser = async (event) => {
         event.preventDefault()
@@ -16,8 +16,8 @@ class LogIn extends React.Component {
 
         const response = await axios.post('http://localhost:3001/user/login', credentials)
 
-        this.setState({ verifiedUser: response.data.data[0].username, isVerified: true })
-        console.log(this.state.verifiedUser)
+        this.setState({ verifiedUser: response.data.data[0].username, isVerified: true, userId: response.data.data[0]._id })
+        //console.table(response.data.data[0]._id)
         return false
     }
 
@@ -26,7 +26,10 @@ class LogIn extends React.Component {
         if (this.state.isVerified) {
             //checkpoint not yet created
             //${this.state.verifiedUser}
-            return <Redirect to={`/homepage`} />
+            return <Redirect to={{
+                pathname: '/homepage',
+                state: { id: this.state.userId }
+             }} />
         }
 
         return (

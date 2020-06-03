@@ -6,7 +6,7 @@ import Tweet from './Tweet'
 
 class Homepage extends React.Component {
 
-    state = { tweets: [], data: '' };
+    state = { tweets: [], data: '', id: '', others: [] }
     
 
     onPost = (tweetText) => {
@@ -19,16 +19,26 @@ class Homepage extends React.Component {
             tweet: tweetText
         }
 
-        axios.post('http://localhost:3001/tweet/add', postedTweet)
+        axios.post(`http://localhost:3001/user/tweet/user/${this.state.id}`, postedTweet)
             
     }
 
     myHomepage = async (event) => {
-        const response = await axios.get('http://localhost:3001/user/me')
-        this.setState({ data: response.data })
+        event.preventDefault()
+        const id = this.props.location.state.id
+        this.setState({ id: this.props.location.state.id })
+        console.log(this.state.id)
+        const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.id}`)
+        response.data.map((tweet) => {
+            this.setState(prevState => ({
+                others: [...prevState.others, tweet.tweet]
+            }))
+        })
+        console.log(response.data)
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+
         window.addEventListener('load', this.myHomepage);
      }
 
@@ -42,10 +52,10 @@ class Homepage extends React.Component {
                 <SearchBar className="search-bar" />
                 <Tweet onPostSubmit={this.onPost} />
                 <div>{this.state.data}</div>
-                <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} />
+                <TweetList tweets={this.state.others} onDeleteTile={this.onDelete} />
             </div>
         )
     }
 }
 
-export default Homepage;
+export default Homepage

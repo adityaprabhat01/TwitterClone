@@ -1,21 +1,21 @@
 import React from 'react'
 import axios from 'axios'
-//import TweetList from './TweetList'
-
-//return <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} />
-//props: tweets by that person received from db in an array
+import TweetList from './TweetList'
 
 class Profile extends React.Component {
 
-    state = { data: '' }
+    state = { tweets: [] }
 
-    myProfile = async (event) => {
-        const response = await axios.get('http://localhost:3001/user/me')
-        this.setState({ data: response.data })
-    }
-
-    componentDidMount() {
-        window.addEventListener('load', this.myProfile);
+    async componentDidMount() {
+        console.log('component mounted')
+        const id = this.props.location.state.id
+        const response = await axios.get(`http://localhost:3001/user/tweet/user/${id}`)
+        
+        response.data.map((tweet) => {
+            this.setState(prevState => ({
+                tweets: [...prevState.tweets, tweet.tweet]
+            }))
+        })
      }
 
     onDelete = (event) => {
@@ -25,7 +25,7 @@ class Profile extends React.Component {
     render() {
         return (
             <div>
-                <div>{this.state.data}</div>
+                <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} />
             </div>
         )
     }
