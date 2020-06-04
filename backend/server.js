@@ -1,8 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const cors = require('cors');
+const cors = require('cors')
 const tweetRouter = require('./routes/tweet')
-const userRouter = require('./routes/user');
+const userRouter = require('./routes/user')
+const searchRouter = require('./routes/search')
 
 const app = express()
 app.use(express.json())
@@ -25,6 +26,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/twitter-clone', {
 
 app.use('/user', userRouter)
 app.use('/tweet', tweetRouter)
+app.use('/search', searchRouter)
 
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`)

@@ -53,8 +53,12 @@ UserSchema.statics.findByUsername = async (username, password) => {
     if(!user) {
         throw new Error('User does not exist')
     }
-
-    return user
+    
+    if(user[0].password === password){
+        return user
+    }
+    
+    return false
 }
 
 
