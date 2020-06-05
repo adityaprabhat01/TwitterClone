@@ -15,7 +15,6 @@ class LogIn extends React.Component {
         }
 
         const response = await axios.post('http://localhost:3001/user/login', credentials)
-        console.log(response.data)
         if(response.data.data === false){
             this.setState({  isVerified: false, wrongPassword: true })
         }

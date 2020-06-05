@@ -56,6 +56,10 @@ router.get('/tweet/user/:id', async (req, res) => {
     .catch()
 })
 
+router.post('/follow', (req, res) => {
+    console.log(req.body.own)
+})
+
 // router.patch('/tweet/user/:id', async (req, res) => {
 //     console.log(req.body)
 //     Tweet.create(req.body)

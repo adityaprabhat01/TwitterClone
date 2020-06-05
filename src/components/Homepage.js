@@ -9,43 +9,33 @@ class Homepage extends React.Component {
 
     state = { tweets: [], data: '', id: '', others: [], profile: false, searched: false, searchId: '' }
     
-
-    onPost = (tweetText) => {
-
+    onPost = async (tweetText) => {
         this.setState(prevState => ({
             tweets: [...prevState.tweets, tweetText]
         }))
-
         const postedTweet = {
             tweet: tweetText
         }
-
-        axios.post(`http://localhost:3001/user/tweet/user/${this.state.id}`, postedTweet)
-            
+        await axios.post(`http://localhost:3001/user/tweet/user/${this.state.id}`, postedTweet)
     }
 
     myHomepage = async (event) => {
-        event.preventDefault()
         const id = this.props.location.state.id
-        this.setState({ id: this.props.location.state.id })
-        console.log(this.state.id)
+        await this.setState({ id: id })
         const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.id}`)
         response.data.map((tweet) => {
             this.setState(prevState => ({
                 others: [...prevState.others, tweet.tweet]
             }))
         })
-        console.log(response.data)
     }
 
-    myProfile = (event) => {
-        this.setState({ profile: true })
-        
+    myProfile = async (event) => {
+        await this.setState({ profile: true })
     }
 
     async componentDidMount() {
-
-        window.addEventListener('load', this.myHomepage);
+        window.addEventListener('load', this.myHomepage());
      }
 
     onDelete = (event) => {
@@ -59,7 +49,7 @@ class Homepage extends React.Component {
         const response = await axios.post('http://localhost:3001/search/user', details)
         const searchId = response.data
         if(searchId){
-            this.setState({ searched: true, searchId: response.data.user[0]._id })
+            await this.setState({ searched: true, searchId: response.data.user[0]._id })
         }
         
     }
@@ -76,7 +66,7 @@ class Homepage extends React.Component {
         if(this.state.searched) {
             return <Redirect to={{
                 pathname: '/profile',
-                state: { id: this.state.searchId }
+                state: { id: this.state.id, searchId: this.state.searchId }
             }}/>
         }
 

@@ -5,18 +5,29 @@ import { Redirect } from 'react-router-dom'
 
 class Profile extends React.Component {
 
-    state = { tweets: [], id: '', homepage: false }
+    state = { tweets: [], id: '', homepage: false, onPageId: '', searchId: '' }
 
     async componentDidMount() {
-        console.log('component mounted')
         const id = this.props.location.state.id
-        this.setState({ id: id })
-        const response = await axios.get(`http://localhost:3001/user/tweet/user/${id}`)
-        response.data.map((tweet) => {
-            this.setState(prevState => ({
-                tweets: [...prevState.tweets, tweet.tweet]
-            }))
-        })
+        const searchId = this.props.location.state.searchId
+        await this.setState({ id: id, searchId: searchId })
+        if(this.state.searchId){
+            const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.searchId}`)
+            response.data.map((tweet) => {
+                this.setState(prevState => ({
+                    tweets: [...prevState.tweets, tweet.tweet]
+                }))
+            })
+        }
+        else if(this.state.id){
+            const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.id}`)
+            response.data.map((tweet) => {
+                this.setState(prevState => ({
+                    tweets: [...prevState.tweets, tweet.tweet]
+                }))
+            })
+        }
+        
      }
 
     onDelete = (event) => {
@@ -25,6 +36,15 @@ class Profile extends React.Component {
 
     myHomepage = () => {
         this.setState({ homepage: true })
+    }
+
+    onFollow = async (event) => {
+        event.preventDefault()
+        const ids = {
+            own: this.state.id
+        }
+        console.log(ids)
+        const response = await axios.post('http://localhost:3001/user/follow', ids)
     }
 
     render() {
@@ -40,6 +60,7 @@ class Profile extends React.Component {
             <div>
                 <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} />
                 <button onClick={this.myHomepage}>Homepage</button>
+                <button onClick={this.onFollow}>Follow</button>
             </div>
         )
     }
