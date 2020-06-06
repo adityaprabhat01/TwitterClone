@@ -2,17 +2,15 @@ const mongoose = require('mongoose')
 const User = require('./User')
 
 const FollowSchema = new mongoose.Schema({
-    follower: {
+    own: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
     },
 
     following: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: User
+        type: mongoose.Schema.Types.ObjectId
     }]
 })
 
 const Follow = mongoose.model('Follow', FollowSchema)
 
-export default Follow
+module.exports = Follow

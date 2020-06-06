@@ -22,10 +22,10 @@ class Homepage extends React.Component {
     myHomepage = async (event) => {
         const id = this.props.location.state.id
         await this.setState({ id: id })
-        const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.id}`)
+        const response = await axios.get(`http://localhost:3001/user/tweet/homepage/${this.state.id}`)
         response.data.map((tweet) => {
             this.setState(prevState => ({
-                others: [...prevState.others, tweet.tweet]
+                others: [...prevState.others, tweet]
             }))
         })
     }

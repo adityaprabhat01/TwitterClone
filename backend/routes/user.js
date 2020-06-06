@@ -2,27 +2,28 @@ const express = require('express')
 const router = express.Router()
 let User = require('../models/User')
 let Tweet = require('../models/Tweet')
+let Follow = require('../models/Follows')
 
 router.post('/add' ,(req, res) => {
     const name = req.body.name
     const email = req.body.email
     const username = req.body.username
     const password = req.body.password
-
-    console.log(req.body)
-
     const newUser = new User({name, email, username, password})
+    const newFollowList = new Follow({ own: newUser._id })
 
     newUser.save()
     .then(() => res.json('User added!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+    .catch(err => res.status(400).json('Error: ' + err))
+
+    newFollowList.save()
+    .then(() => res.json('Follow list created'))
+    .catch(err => res.status(400).json('Error: ' + err)) 
 })
 
 router.post('/login', (req, res) => {
     const username = req.body.username
     const password = req.body.password
-    
-    console.log(username, password)
 
     const userData = User.findByUsername(username, password)
 
@@ -32,19 +33,14 @@ router.post('/login', (req, res) => {
     
 })
 
-router.get('/me', (req, res) => {
-    res.send('My Homepage')
-})
-
 router.post('/tweet/user/:id', (req, res) => {
-    console.log(req.body)
     Tweet.create(req.body)
     .then((data) => {
         return User.findOneAndUpdate({ _id: req.params.id }, { $push: {'tweets': data._id} }, { new: true });
     })
     .catch()
 
-    res.send("Tweet Created")
+    res.send("true")
 })
 
 router.get('/tweet/user/:id', async (req, res) => {
@@ -56,8 +52,35 @@ router.get('/tweet/user/:id', async (req, res) => {
     .catch()
 })
 
-router.post('/follow', (req, res) => {
-    console.log(req.body.own)
+router.get('/tweet/homepage/:id', async (req, res) => {
+    var tweetsToSend = []
+    var count = 0
+    await Follow.find({ own: req.params.id })
+    .then((data) => {
+        const following = data[0].following
+        const num = following.length
+        following.map(async (_id) => {
+            await User.find({ _id })
+            .populate('tweets')
+            .then((tweet) => {
+                tweet[0].tweets.map(async (tweet) => {
+                    await tweetsToSend.push(tweet.tweet)
+                })
+                count++
+                if(num === count) {
+                    res.send(tweetsToSend)
+                }
+            })
+            .catch()
+        })
+    })
+    .catch()
+})
+
+
+router.post('/follow', async (req, res) => {
+    await Follow.findOneAndUpdate({ own: req.body.own }, { $push: {'following': req.body.toFollow} }, { new: true } )
+    res.send(true)
 })
 
 // router.patch('/tweet/user/:id', async (req, res) => {

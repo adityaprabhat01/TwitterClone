@@ -11,6 +11,7 @@ class Profile extends React.Component {
         const id = this.props.location.state.id
         const searchId = this.props.location.state.searchId
         await this.setState({ id: id, searchId: searchId })
+        
         if(this.state.searchId){
             const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.searchId}`)
             response.data.map((tweet) => {
@@ -41,10 +42,13 @@ class Profile extends React.Component {
     onFollow = async (event) => {
         event.preventDefault()
         const ids = {
-            own: this.state.id
+            own: this.state.id,
+            toFollow: this.state.searchId
         }
-        console.log(ids)
         const response = await axios.post('http://localhost:3001/user/follow', ids)
+        if(response) {
+
+        }
     }
 
     render() {
