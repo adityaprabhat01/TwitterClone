@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom'
 
 class Homepage extends React.Component {
 
-    state = { tweets: [], data: '', id: '', others: [], profile: false, searched: false, searchId: '' }
+    state = { tweets: [], data: '', id: '', others: [], profile: false, searched: false, searchId: '', following: [] }
     
     onPost = async (tweetText) => {
         this.setState(prevState => ({
@@ -23,9 +23,16 @@ class Homepage extends React.Component {
         const id = this.props.location.state.id
         await this.setState({ id: id })
         const response = await axios.get(`http://localhost:3001/user/tweet/homepage/${this.state.id}`)
-        response.data.map((tweet) => {
+        response.data.tweetsToSend.map((tweet) => {
             this.setState(prevState => ({
-                others: [...prevState.others, tweet]
+                others: [...prevState.others, tweet],
+                following: [...prevState.following, ]
+            }))
+        })
+
+        response.data.following.map((follow) => {
+            this.setState(prevState => ({
+                following: [...prevState.following, follow]
             }))
         })
     }
@@ -66,7 +73,7 @@ class Homepage extends React.Component {
         if(this.state.searched) {
             return <Redirect to={{
                 pathname: '/profile',
-                state: { id: this.state.id, searchId: this.state.searchId }
+                state: { id: this.state.id, searchId: this.state.searchId, following: this.state.following }
             }}/>
         }
 

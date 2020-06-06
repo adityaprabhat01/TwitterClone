@@ -68,7 +68,7 @@ router.get('/tweet/homepage/:id', async (req, res) => {
                 })
                 count++
                 if(num === count) {
-                    res.send(tweetsToSend)
+                    res.send({ tweetsToSend, following })
                 }
             })
             .catch()
@@ -83,16 +83,11 @@ router.post('/follow', async (req, res) => {
     res.send(true)
 })
 
-// router.patch('/tweet/user/:id', async (req, res) => {
+// router.post('/unfollow', async (req, res) => {
 //     console.log(req.body)
-//     Tweet.create(req.body)
-//     .then((data) => {
-//         return User.findOneAndUpdate({ _id: req.params.id }, { tweets: data._id }, { new: true });
-//     })
+//     await Follow.findByIdAndUpdate({ own: req.body.own }, { $pull: {'following': req.body.toUnfollow} } )
+//     .then(res.send(true))
 //     .catch()
-
-//     res.send("Tweet created")
-
 // })
 
 module.exports = router

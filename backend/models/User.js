@@ -44,11 +44,6 @@ const UserSchema = new mongoose.Schema({
         }
     }],
 
-    // followerList: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Follow'
-    // }
-
 })
 
 UserSchema.statics.findByUsername = async (username, password) => {

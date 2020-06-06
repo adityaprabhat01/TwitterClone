@@ -7,7 +7,8 @@ const FollowSchema = new mongoose.Schema({
     },
 
     following: [{
-        type: mongoose.Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId,
+        unique: true
     }]
 })
 
