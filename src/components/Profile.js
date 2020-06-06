@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 
 class Profile extends React.Component {
 
-    state = { tweets: [], id: '', homepage: false, onPageId: '', searchId: '', followed: false, following: [], unfollowed: false, ownProfile: false }
+    state = { tweets: [], tweetIds: [], id: '', homepage: false, onPageId: '', searchId: '', followed: false, following: [], unfollowed: false, ownProfile: false }
 
     async componentDidMount() {
         const id = this.props.location.state.id
@@ -39,9 +39,15 @@ class Profile extends React.Component {
         }
         else if(this.state.id){
             const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.id}`)
+            console.log(response.data)
             response.data.map((tweet) => {
                 this.setState(prevState => ({
-                    tweets: [...prevState.tweets, tweet.tweet]
+                    tweets: [...prevState.tweets, tweet.tweet],
+                }))
+            })
+            response.data.map((id) => {
+                this.setState(prevState => ({
+                    tweetIds: [...prevState.tweetIds, id._id]
                 }))
             })
             this.setState({ ownProfile: true })
@@ -50,8 +56,17 @@ class Profile extends React.Component {
         
      }
 
-    onDelete = (event) => {
+    onDelete = async (event) => {
+        const text = event.target.parentElement.childNodes[0].textContent
+        const index = this.state.tweets.indexOf(text)
+        console.log(index)
+        const ids = {
+            id: this.state.id,
+            tweetId : this.state.tweetIds[index]
+        }
         event.target.parentElement.remove()
+        const response = await axios.post(`http://localhost:3001/user/tweet/delete`, ids)
+
     }
 
     myHomepage = () => {

@@ -84,9 +84,19 @@ router.post('/follow', async (req, res) => {
 })
 
 router.post('/unfollow', async (req, res) => {
-    console.log(req.body)
     await Follow.findOneAndUpdate({ own: req.body.own }, { $pull: {'following': req.body.toUnfollow} } )
     .then(res.send(true))
+    .catch()
+})
+
+router.post('/tweet/delete', async (req, res) => {
+
+
+    await User.findOneAndUpdate({ _id: req.body.id }, { $pull: {'tweets': req.body.tweetId} } )
+    .then()
+    .catch()
+    await Tweet.findOneAndRemove({ _id: req.body.tweetId })
+    .then()
     .catch()
 })
 
