@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom'
 
 class Profile extends React.Component {
 
-    state = { tweets: [], id: '', homepage: false, onPageId: '', searchId: '', followed: false, following: [] }
+    state = { tweets: [], id: '', homepage: false, onPageId: '', searchId: '', followed: false, following: [], unfollowed: false, ownProfile: false }
 
     async componentDidMount() {
         const id = this.props.location.state.id
@@ -26,12 +26,15 @@ class Profile extends React.Component {
                     following: [...prevState.following, follow]
                 }))
             })
-            if(this.state.searchId.includes(this.state.following)) {
+            if(this.state.following.includes(this.state.searchId)) {
                 console.log(this.state.searchId, (this.state.id))
-                
                 this.setState({ followed: true })
             }
+            else {
+                this.setState({ unfollowed: true })
+            }
 
+            this.setState({ ownProfile: false })
             
         }
         else if(this.state.id){
@@ -41,6 +44,7 @@ class Profile extends React.Component {
                     tweets: [...prevState.tweets, tweet.tweet]
                 }))
             })
+            this.setState({ ownProfile: true })
         }
         
         
@@ -62,7 +66,7 @@ class Profile extends React.Component {
         }
         const response = await axios.post('http://localhost:3001/user/follow', ids)
         if(response) {
-            this.setState({ followed: true })
+            this.setState({ followed: true, unfollowed: false })
         }
     }
 
@@ -73,6 +77,7 @@ class Profile extends React.Component {
             toUnfollow: this.state.searchId
         }
         const response = await axios.post('http://localhost:3001/user/unfollow', ids)
+        this.setState({ followed: false, unfollowed: true })
 
     }
 
@@ -91,6 +96,24 @@ class Profile extends React.Component {
                     <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} />
                     <button onClick={this.myHomepage}>Homepage</button>
                     <button onClick={this.onUnfollow}>Unfollow</button>
+                </div>
+            )
+        }
+        if(this.state.unfollowed) {
+            return (
+                <div>
+                    <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} />
+                    <button onClick={this.myHomepage}>Homepage</button>
+                    <button onClick={this.onFollow}>Follow</button>
+                </div>
+            )
+        }
+
+        if(this.state.ownProfile) {
+            return (
+                <div>
+                    <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} />
+                    <button onClick={this.myHomepage}>Homepage</button>
                 </div>
             )
         }

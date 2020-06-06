@@ -35,6 +35,8 @@ class Homepage extends React.Component {
                 following: [...prevState.following, follow]
             }))
         })
+
+        console.log(this.state.following)
     }
 
     myProfile = async (event) => {

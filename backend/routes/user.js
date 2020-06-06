@@ -83,11 +83,11 @@ router.post('/follow', async (req, res) => {
     res.send(true)
 })
 
-// router.post('/unfollow', async (req, res) => {
-//     console.log(req.body)
-//     await Follow.findByIdAndUpdate({ own: req.body.own }, { $pull: {'following': req.body.toUnfollow} } )
-//     .then(res.send(true))
-//     .catch()
-// })
+router.post('/unfollow', async (req, res) => {
+    console.log(req.body)
+    await Follow.findOneAndUpdate({ own: req.body.own }, { $pull: {'following': req.body.toUnfollow} } )
+    .then(res.send(true))
+    .catch()
+})
 
 module.exports = router
