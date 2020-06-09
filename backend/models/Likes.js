@@ -1,16 +1,17 @@
 const mongoose = require('mongoose')
 
-const FollowSchema = new mongoose.Schema({
+const LikeSchema = new mongoose.Schema({
     own: {
         type: mongoose.Schema.Types.ObjectId,
+        unique: true
     },
 
-    following: [{
+    likes: [{
         type: mongoose.Schema.Types.ObjectId,
         unique: true
     }]
 })
 
-const Follow = mongoose.model('Follow', FollowSchema)
+const Likes = mongoose.model('Likes', LikeSchema)
 
-module.exports = Follow
+module.exports = Likes
