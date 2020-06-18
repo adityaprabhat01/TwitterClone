@@ -7,7 +7,6 @@ class SignUp extends React.Component {
 
     onCreateUser = (event) => {
 
-
         const newUser = {
             name: this.state.name,
             email: this.state.email,
@@ -15,7 +14,8 @@ class SignUp extends React.Component {
             password: this.state.password
         }
 
-        axios.post('http://localhost:3001/user/add', newUser)
+        const response = axios.post('http://localhost:3001/user/signup', newUser)
+
     }
 
     render() {

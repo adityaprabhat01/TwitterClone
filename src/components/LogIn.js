@@ -1,44 +1,46 @@
-import React from "react";
-import axios from "axios";
-import { Redirect } from "react-router-dom";
+import React from "react"
+import axios from "axios"
+import { Redirect } from "react-router-dom"
 
 class LogIn extends React.Component {
   state = {
-    username: "",
-    password: "",
-    verifiedUser: "",
+    username: '',
+    password: '',
+    verifiedUser: '',
     isVerified: false,
-    userId: "",
+    userId: '',
     wrongPassword: false,
-  };
+  }
 
   logInUser = async (event) => {
-    event.preventDefault();
+
+    event.preventDefault()
 
     const credentials = {
       username: this.state.username,
       password: this.state.password,
-    };
+    }
 
-    const response = await axios.post(
-      "http://localhost:3001/user/login",
-      credentials
-    );
+    const response = await axios.post('http://localhost:3001/user/login', credentials)
+
     if (response.data.data === false) {
-      this.setState({ isVerified: false, wrongPassword: true });
-    } else {
+      this.setState({ isVerified: false, wrongPassword: true })
+    } 
+    else {
       this.setState({
         isVerified: true,
         verifiedUser: response.data.data[0].username,
         userId: response.data.data[0]._id,
         wrongPassword: false,
-      });
+      })
     }
 
-    return false;
-  };
+    return false
+  }
 
   render() {
+
+    //username and password is correct
     if (this.state.isVerified) {
       return (
         <Redirect
@@ -47,9 +49,10 @@ class LogIn extends React.Component {
             state: { id: this.state.userId },
           }}
         />
-      );
+      )
     }
 
+    //username or password is wrong
     if (this.state.wrongPassword) {
       return (
         <div>
@@ -86,7 +89,7 @@ class LogIn extends React.Component {
           </div>
           <div>Wrong Username or Password</div>
         </div>
-      );
+      )
     }
 
     return (
@@ -121,8 +124,8 @@ class LogIn extends React.Component {
           </button>
         </form>
       </div>
-    );
+    )
   }
 }
 
-export default LogIn;
+export default LogIn

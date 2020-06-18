@@ -1,7 +1,6 @@
 import React from 'react'
 
 const TweetTile = ({ tweet, onDeleteTile, onLike, liked }) => {
-
   if (tweet !== '') {
     return (
       <div className="container">
