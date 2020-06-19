@@ -22,14 +22,14 @@ class Profile extends React.Component {
   async componentDidMount() {
     const id = this.props.location.state.id
     const searchId = this.props.location.state.searchId
-
+    
     await this.setState({ id: id, searchId: searchId })
 
+    //others profile
     if (this.state.searchId) {
-
       const following = this.props.location.state.following
       const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.searchId}`)
-
+      
       response.data.tweetsToSend.map(tweets => {
         tweets.map(tweet => {
           var t = {
@@ -42,18 +42,25 @@ class Profile extends React.Component {
         })
       })
       
+      this.setState((prevState) => ({
+        following: [...prevState.following, following],
+      }))
 
-
-      if (this.state.following.includes(this.state.searchId)) {
+      if (this.state.following[0].includes(this.state.searchId)) {
         this.setState({ followed: true })
-      } else {
+      } 
+    
+      else {
         this.setState({ unfollowed: true })
       }
 
       this.setState({ ownProfile: false })
+      
     } 
     
+    //my profile
     else if (this.state.id) {
+      const following = this.props.location.state.following
       const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.id}`)
       response.data.tweetsToSend.map(tweets => {
         tweets.map(tweet => {
@@ -66,33 +73,46 @@ class Profile extends React.Component {
           }))
         })
       })
+
+      this.setState((prevState) => ({
+        following: [...prevState.following, following],
+      }))
+
       this.setState({ ownProfile: true })
     }
   }
 
+  //delete tweet
   onDelete = async (event) => {
     const text = event.target.parentElement.childNodes[0].textContent
-    const index = this.state.tweets.indexOf(text)
-    console.log(index)
+    var index = 0
+    while(true) {
+       if (this.state.tweets[index].tweet.includes(text)){
+         break
+       }
+       index++
+    }
     const ids = {
       id: this.state.id,
-      tweetId: this.state.tweetIds[index],
+      tweetId: this.state.tweets[index].tweetId,
     }
     event.target.parentElement.remove()
-    const response = await axios.post(
-      `http://localhost:3001/user/tweet/delete`,
-      ids
-    )
+    const response = await axios.post('http://localhost:3001/user/tweet/delete', ids)
   }
 
   onLike = async (event) => {
     const text = event.target.parentElement.childNodes[0].textContent
-    const index = this.state.tweets.indexOf(text)
+    var index = 0
+    while(true) {
+       if (this.state.tweets[index].tweet.includes(text)){
+         break
+       }
+       index++
+    }
     const ids = {
       id: this.state.id,
-      tweetId: this.state.tweetIds[index],
+      tweetId: this.state.tweets[index].tweetId,
     }
-    console.log(ids)
     const response = axios.post('http://localhost:3001/user/likes', ids)
   }
 
@@ -118,18 +138,13 @@ class Profile extends React.Component {
       own: this.state.id,
       toUnfollow: this.state.searchId,
     }
-    const response = await axios.post(
-      "http://localhost:3001/user/unfollow",
-      ids
-    )
+    const response = await axios.post("http://localhost:3001/user/unfollow", ids)
     this.setState({ followed: false, unfollowed: true })
   }
 
   liked = async (event) => {
     event.preventDefault()
-    const response = await axios.get(
-      `http://localhost:3001/user/likes/${this.state.id}`
-    )
+    const response = await axios.get(`http://localhost:3001/user/likes/${this.state.id}`)
     console.log(response.data)
     response.data.map((tweet) => {
       this.setState((prevState) => ({

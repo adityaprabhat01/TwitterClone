@@ -42,6 +42,7 @@ class Homepage extends React.Component {
         following: [...prevState.following, follow],
       }))
     })
+
   }
 
   myProfile = async (event) => {
@@ -62,7 +63,6 @@ class Homepage extends React.Component {
       postedTweets: [...prevState.postedTweets, t]
     }))
     
-    console.log(this.state.postedTweets)
   }
 
   onDelete = (event) => {
@@ -107,7 +107,10 @@ class Homepage extends React.Component {
         <Redirect
           to={{
             pathname: "/profile",
-            state: { id: this.state.id },
+            state: { 
+              id: this.state.id,
+              following: this.state.following  
+            },
           }}
         />
       )
@@ -121,7 +124,7 @@ class Homepage extends React.Component {
             state: {
               id: this.state.id,
               searchId: this.state.searchId,
-              following: this.state.following,
+              following: this.state.following
             },
           }}
         />
