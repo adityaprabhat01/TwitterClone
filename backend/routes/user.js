@@ -5,7 +5,7 @@ let Tweet = require("../models/Tweet")
 let Follow = require("../models/Follows")
 let Likes = require("../models/Likes")
 
-router.post("/signup", (req, res) => {
+router.post("/signup", async (req, res) => {
   const name = req.body.name
   const email = req.body.email
   const username = req.body.username
@@ -15,19 +15,19 @@ router.post("/signup", (req, res) => {
   const newFollowList = new Follow({ own: newUser._id })
   const newLikesList = new Likes({ own: newUser._id })
 
-  newUser
+  await newUser
     .save()
-    .then()
+    .then(data => console.log(data))
     .catch((err) => res.status(400).json("Error: " + err))
 
-  newFollowList
+  await newFollowList
     .save()
-    .then()
+    .then(data => console.log(data))
     .catch((err) => res.status(400).json("Error: " + err))
 
-  newLikesList
+  await newLikesList
     .save()
-    .then()
+    .then(data => console.log(data))
     .catch((err) => res.status(400).json("Error: " + err))
 
   res.send(true)
@@ -72,7 +72,17 @@ router.get("/tweet/user/:id", async (req, res) => {
 
 router.get("/tweet/homepage/:id", async (req, res) => {
   var tweetsToSend = []
+  var likedTweets = []
   var count = 0
+  await Likes.find({ own: req.params.id })
+    .then(data => {
+      const likes = data[0].likes
+      likes.map(async tweetId => {
+        await likedTweets.push(tweetId)
+      })
+    })
+    .catch()
+
   await Follow.find({ own: req.params.id })
     .then((data) => {
       const following = data[0].following
@@ -81,11 +91,10 @@ router.get("/tweet/homepage/:id", async (req, res) => {
         await User.find({ _id })
           .populate("tweets")
           .then(async (data) => {
-            console.log(data[0].tweets)
             await tweetsToSend.push(data[0].tweets)
             count++
             if (num === count) {
-              res.send({ tweetsToSend, following })
+              res.send({ tweetsToSend, following, likedTweets })
             }
           })
           .catch()
@@ -129,14 +138,13 @@ router.post("/likes", async (req, res) => {
 router.get('/likes/:id', async (req, res) => {
   var count = 0
   await Likes.find({ own: req.params.id }).then(data => {
-    console.log(data)
     const likedTweetsId = data[0].likes
     const num = data[0].likes.length
     var tweetsToSend = []
     likedTweetsId
       .map(async (likedTweetId) => {
         await Tweet.find({ _id: likedTweetId }).then(async (tweet) => {
-          await tweetsToSend.push(tweet)
+          await tweetsToSend.push(tweet[0])
           count++
           if (count === num) {
             res.send(tweetsToSend)

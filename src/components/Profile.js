@@ -1,3 +1,11 @@
+/* 
+  onDelete()
+  onLike()
+  onFollow()
+  onUnfollow()
+  showLikes()
+*/
+
 import React from "react"
 import axios from "axios"
 import TweetList from "./TweetList"
@@ -22,8 +30,9 @@ class Profile extends React.Component {
   async componentDidMount() {
     const id = this.props.location.state.id
     const searchId = this.props.location.state.searchId
+    const likedTweetIds = this.props.location.state.likedTweets
     
-    await this.setState({ id: id, searchId: searchId })
+    await this.setState({ id: id, searchId: searchId, likedTweetIds: likedTweetIds })
 
     //others profile
     if (this.state.searchId) {
@@ -124,7 +133,7 @@ class Profile extends React.Component {
     event.preventDefault()
     const ids = {
       own: this.state.id,
-      toFollow: this.state.searchId,
+      toFollow: this.state.searchId
     }
     const response = await axios.post("http://localhost:3001/user/follow", ids)
     if (response) {
@@ -136,20 +145,22 @@ class Profile extends React.Component {
     event.preventDefault()
     const ids = {
       own: this.state.id,
-      toUnfollow: this.state.searchId,
+      toUnfollow: this.state.searchId
     }
     const response = await axios.post("http://localhost:3001/user/unfollow", ids)
     this.setState({ followed: false, unfollowed: true })
   }
 
-  liked = async (event) => {
+  showLikes = async (event) => {
     event.preventDefault()
     const response = await axios.get(`http://localhost:3001/user/likes/${this.state.id}`)
-    console.log(response.data)
     response.data.map((tweet) => {
+      var t = {
+        tweetId: tweet._id,
+        tweet: tweet.tweet
+      }
       this.setState((prevState) => ({
-        likedTweets: [...prevState.likedTweets, tweet[0].tweet],
-        likedTweetIds: [...prevState.likedTweetIds, tweet[0]._id]
+        likedTweets: [...prevState.likedTweets, t]
       }))
     })
     this.setState({ viewLiked: true })
@@ -170,7 +181,7 @@ class Profile extends React.Component {
     if (this.state.followed) {
       return (
         <div>
-          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} />
+          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} source='profile' likedTweetIds={this.state.likedTweetIds} />
           <button onClick={this.myHomepage}>Homepage</button>
           <button onClick={this.onUnfollow}>Unfollow</button>
         </div>
@@ -179,7 +190,7 @@ class Profile extends React.Component {
     if (this.state.unfollowed) {
       return (
         <div>
-          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} />
+          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} source='profile' likedTweetIds={this.state.likedTweetIds}  />
           <button onClick={this.myHomepage}>Homepage</button>
           <button onClick={this.onFollow}>Follow</button>
         </div>
@@ -188,11 +199,11 @@ class Profile extends React.Component {
 
     if(this.state.viewLiked) {
       return (<div>
-        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} />
+        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} liked={false} source='profile' likedTweetIds={this.state.likedTweetIds}  />
         <button onClick={this.myHomepage}>Homepage</button>
-        <button onClick={this.onFollow}>Follow</button>
+        <button onClick={this.onFollow}>Hide</button>
         <div>Liked Tweets</div>
-        <TweetList tweets={this.state.likedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} liked={true} />
+        <TweetList tweets={this.state.likedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} liked={true} source='profile' likedTweetIds={this.state.likedTweetIds}  />
       </div>
       )
     }
@@ -200,16 +211,16 @@ class Profile extends React.Component {
     if (this.state.ownProfile) {
       return (
         <div>
-          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} />
+          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} source='profile' likedTweetIds={this.state.likedTweetIds}  />
           <button onClick={this.myHomepage}>Homepage</button>
-          <button onClick={this.liked}>Show likes</button>
+          <button onClick={this.showLikes}>Show likes</button>
         </div>
       )
     }
 
     return (
       <div>
-        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} />
+        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} source='profile' likedTweetIds={this.state.likedTweetIds}  />
         <button onClick={this.myHomepage}>Homepage</button>
         <button onClick={this.onFollow}>Follow</button>
       </div>

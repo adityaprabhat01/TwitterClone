@@ -21,7 +21,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/twitter-clone', {
         return console.log("Could not connect to mongodb")
     }
 
-    return console.log('Connection Successful')
+    return console.log('Connection Successful to mongodb')
 })
 
 app.use('/user', userRouter)

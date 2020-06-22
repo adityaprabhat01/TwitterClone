@@ -16,6 +16,7 @@ class Homepage extends React.Component {
     searched: false,
     searchId: "",
     following: [],
+    likedTweets: []
   }
 
   myHomepage = async (event) => {
@@ -40,6 +41,12 @@ class Homepage extends React.Component {
     response.data.following.map((follow) => {
       this.setState((prevState) => ({
         following: [...prevState.following, follow],
+      }))
+    })
+
+    response.data.likedTweets.map(tweet => {
+      this.setState((prevState) => ({
+        likedTweets: [...prevState.likedTweets, tweet]
       }))
     })
 
@@ -71,12 +78,17 @@ class Homepage extends React.Component {
 
   onLike = async (event) => {
     const text = event.target.parentElement.childNodes[0].textContent
-    const index = this.state.tweets.indexOf(text)
+    var index = 0
+    while(true) {
+       if (this.state.tweets[index].tweet.includes(text)){
+         break
+       }
+       index++
+    }
     const ids = {
       id: this.state.id,
-      tweetId: this.state.tweetIds[index],
+      tweetId: this.state.tweets[index].tweetId,
     }
-    console.log(ids)
     const response = axios.post('http://localhost:3001/user/likes', ids)
   }
 
@@ -84,15 +96,12 @@ class Homepage extends React.Component {
     const details = {
       name: name,
     }
-    const response = await axios.post(
-      "http://localhost:3001/search/user",
-      details
-    )
+    const response = await axios.post("http://localhost:3001/search/user", details)
     const searchId = response.data
     if (searchId) {
       await this.setState({
         searched: true,
-        searchId: response.data.user[0]._id,
+        searchId: response.data.user[0]._id
       })
     }
   }
@@ -109,7 +118,8 @@ class Homepage extends React.Component {
             pathname: "/profile",
             state: { 
               id: this.state.id,
-              following: this.state.following  
+              following: this.state.following,
+              likedTweets: this.state.likedTweets
             },
           }}
         />
@@ -124,7 +134,8 @@ class Homepage extends React.Component {
             state: {
               id: this.state.id,
               searchId: this.state.searchId,
-              following: this.state.following
+              following: this.state.following,
+              likedTweets: this.state.likedTweets
             },
           }}
         />
@@ -136,8 +147,8 @@ class Homepage extends React.Component {
         <SearchBar className="search-bar" onSearch={this.onSearch} />
         <Tweet onPostSubmit={this.onPost} />
         <div>{this.state.data}</div>
-        <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} />
-        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} />
+        <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} source='homepage' likedTweetIds={this.state.likedTweets} />
+        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} source='homepage' likedTweetIds={this.state.likedTweets} />
         <button onClick={this.myProfile}>Profile</button>
       </div>
     )
