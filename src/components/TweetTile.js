@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, source, likedTweets }) => {
+const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, source, likedTweets, onRetweet, retweeted }) => {
   if (tweet !== '' && source === 'homepage'  && likedTweets.includes(tweetId)) {
     return (
       <div className="container">
@@ -29,7 +29,6 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
   }
 
   else if (tweet !== '' && source === 'profile' && likedTweets.includes(tweetId)) {
-    console.log('right')
     return (
       <div className="container">
         {tweet}

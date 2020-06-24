@@ -4,6 +4,7 @@ let User = require("../models/User")
 let Tweet = require("../models/Tweet")
 let Follow = require("../models/Follows")
 let Likes = require("../models/Likes")
+let Retweet = require("../models/Retweet")
 
 router.post("/signup", async (req, res) => {
   const name = req.body.name
@@ -14,6 +15,7 @@ router.post("/signup", async (req, res) => {
   const newUser = new User({ name, email, username, password })
   const newFollowList = new Follow({ own: newUser._id })
   const newLikesList = new Likes({ own: newUser._id })
+  const newRetweetList = new Retweet({ own: newUser._id })
 
   await newUser
     .save()
@@ -26,6 +28,11 @@ router.post("/signup", async (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err))
 
   await newLikesList
+    .save()
+    .then()
+    .catch((err) => res.status(400).json("Error: " + err))
+  
+  await newRetweetList
     .save()
     .then()
     .catch((err) => res.status(400).json("Error: " + err))
@@ -67,9 +74,20 @@ router.get("/tweet/user/:id", async (req, res) => {
 })
 
 router.get("/tweet/homepage/:id", async (req, res) => {
+
   var tweetsToSend = []
   var likedTweets = []
+  var retweeted = []
   var count = 0
+
+  await Retweet.find({ own: req.params.id })
+    .then(data => {
+      const retweets = data[0].retweet
+      retweets.map(tweetId => {
+        retweeted.push(tweetId)
+      })
+    })
+    .catch(err => {})
 
   await Likes.find({ own: req.params.id })
     .then(data => {
@@ -85,7 +103,7 @@ router.get("/tweet/homepage/:id", async (req, res) => {
       const following = data[0].following
       const num = following.length
       if (num === 0) {
-        res.send({ tweetsToSend, following, likedTweets })
+        res.send({ tweetsToSend, following, likedTweets, retweeted })
       }
       following.map(async (_id) => {
         await User.find({ _id })
@@ -94,7 +112,7 @@ router.get("/tweet/homepage/:id", async (req, res) => {
             tweetsToSend.push(data[0].tweets)
             count++
             if (num === count) {
-              res.send({ tweetsToSend, following, likedTweets })
+              res.send({ tweetsToSend, following, likedTweets, retweeted })
             }
           })
           .catch(err => {})
@@ -151,6 +169,9 @@ router.get('/likes/:id', async (req, res) => {
     const likedTweetsId = data[0].likes
     const num = data[0].likes.length
     var tweetsToSend = []
+    if (num === 0) {
+      res.send(tweetsToSend)
+    }
     likedTweetsId
       .map(async (likedTweetId) => {
         await Tweet.find({ _id: likedTweetId }).then(async (tweet) => {
@@ -163,6 +184,35 @@ router.get('/likes/:id', async (req, res) => {
       })
   })
   .catch()
+})
+
+router.get('/retweet/:id', async (req, res) => {
+  var count = 0
+  await Retweet.find({ own: req.params.id }).then(data => {
+    const retweetedIds = data[0].retweet
+    const num = data[0].retweet.length
+    var tweetsToSend = []
+    if (num === 0) {
+      res.send(tweetsToSend)
+    }
+    retweetedIds
+      .map(async (retweetedId) => {
+        await Tweet.find({ _id: retweetedId }).then(async (tweet) => {
+          await tweetsToSend.push(tweet[0])
+          count++
+          if (count === num) {
+            res.send(tweetsToSend)
+          }
+        })
+      })
+  })
+  .catch()
+})
+
+router.post("/retweet", async (req, res) => {
+  await Retweet.findOneAndUpdate({ own: req.body.id }, { $push: { retweet: req.body.tweetId } }, { new: true })
+        .then(data => {res.send(true)})
+        .catch(err => {})
 })
 
 module.exports = router

@@ -10,6 +10,7 @@ class Homepage extends React.Component {
     tweets: [],
     following: [],
     likedTweets: [],
+    retweets: [],
     postedTweets: [],
     id: "",
     profile: false,
@@ -20,16 +21,8 @@ class Homepage extends React.Component {
   myHomepage = async () => {
     
     const id = this.props.location.state.id
-    //const followedNow = this.props.location.state.followedNow
     await this.setState({ id: id })
-    // if(followedNow !== '') {
-    //   this.setState((prevState) => ({
-    //     following: [...prevState.following, followedNow],
-    //   }))
-    // }
-    console.log('homepage loaded')
     const response = await axios.get(`http://localhost:3001/user/tweet/homepage/${this.state.id}`)
-    
     response.data.tweetsToSend.map(tweets => {
       tweets.map(tweet => {
         var t = {
@@ -51,6 +44,12 @@ class Homepage extends React.Component {
     response.data.likedTweets.map(tweet => {
       this.setState((prevState) => ({
         likedTweets: [...prevState.likedTweets, tweet]
+      }))
+    })
+
+    response.data.retweeted.map(tweet => {
+      this.setState((prevState) => ({
+        retweets: [...prevState.retweets, tweet]
       }))
     })
   }
@@ -119,6 +118,25 @@ class Homepage extends React.Component {
     await this.setState({ likedTweets: array })
   }
 
+  onRetweet = async (event) => {
+    const text = event.target.parentElement.childNodes[0].textContent
+    var index = 0
+    while(true) {
+       if (this.state.tweets[index].tweet.includes(text)){
+         break
+       }
+       index++
+    }
+    const ids = {
+      id: this.state.id,
+      tweetId: this.state.tweets[index].tweetId,
+    }
+    const response = await axios.post('http://localhost:3001/user/retweet', ids)
+    this.setState((prevState) => ({
+      retweets: [...prevState.retweets, this.state.tweets[index].tweetId]
+    }))
+  }
+
   onSearch = async (name) => {
     const details = {
       name: name
@@ -146,7 +164,8 @@ class Homepage extends React.Component {
             state: { 
               id: this.state.id,
               following: this.state.following,
-              likedTweets: this.state.likedTweets
+              likedTweets: this.state.likedTweets,
+              retweets: this.state.retweets
             },
           }}
         />
@@ -175,7 +194,7 @@ class Homepage extends React.Component {
         <Tweet onPostSubmit={this.onPost} />
         
         <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} />
-        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} />
+        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} onRetweet={this.onRetweet} />
         <button onClick={this.myProfile}>Profile</button>
       </div>
     )
