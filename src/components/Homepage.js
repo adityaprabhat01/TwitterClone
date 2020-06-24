@@ -8,20 +8,26 @@ import { Redirect } from 'react-router-dom'
 class Homepage extends React.Component {
   state = {
     tweets: [],
-    tweetToPost: '',
+    following: [],
+    likedTweets: [],
     postedTweets: [],
-    data: "",
     id: "",
     profile: false,
     searched: false,
-    searchId: "",
-    following: [],
-    likedTweets: []
+    searchId: ""
   }
 
-  myHomepage = async (event) => {
+  myHomepage = async () => {
+    
     const id = this.props.location.state.id
+    //const followedNow = this.props.location.state.followedNow
     await this.setState({ id: id })
+    // if(followedNow !== '') {
+    //   this.setState((prevState) => ({
+    //     following: [...prevState.following, followedNow],
+    //   }))
+    // }
+    console.log('homepage loaded')
     const response = await axios.get(`http://localhost:3001/user/tweet/homepage/${this.state.id}`)
     
     response.data.tweetsToSend.map(tweets => {
@@ -34,8 +40,6 @@ class Homepage extends React.Component {
           tweets: [...prevState.tweets, t]
         }))
       })
-      
-      
     })
     
     response.data.following.map((follow) => {
@@ -49,7 +53,6 @@ class Homepage extends React.Component {
         likedTweets: [...prevState.likedTweets, tweet]
       }))
     })
-
   }
 
   myProfile = async (event) => {
@@ -65,11 +68,9 @@ class Homepage extends React.Component {
       tweetId: response.data,
       tweet: tweetText
     }
-    
     await this.setState((prevState) => ({
       postedTweets: [...prevState.postedTweets, t]
     }))
-    
   }
 
   onDelete = (event) => {
@@ -89,12 +90,38 @@ class Homepage extends React.Component {
       id: this.state.id,
       tweetId: this.state.tweets[index].tweetId,
     }
-    const response = axios.post('http://localhost:3001/user/likes', ids)
+    const response = await axios.post('http://localhost:3001/user/likes', ids)
+    this.setState((prevState) => ({
+      likedTweets: [...prevState.likedTweets, this.state.tweets[index].tweetId]
+    }))
+  }
+
+  onUnlike = async (event) => {
+    const text = event.target.parentElement.childNodes[0].textContent
+    var index = 0
+    var id_i = 0
+    var i = 0
+    while(true) {
+       if (this.state.tweets[index].tweet.includes(text)){
+         break
+       }
+       index++
+      }
+    const ids = {
+      id: this.state.id,
+      tweetId: this.state.tweets[index].tweetId,
+    }
+    const response = await axios.post('http://localhost:3001/user/unlikes', ids)
+    var array = [...this.state.likedTweets]
+    id_i = this.state.tweets[index].tweetId
+    i = array.indexOf(id_i)
+    array.splice(i, 1)
+    await this.setState({ likedTweets: array })
   }
 
   onSearch = async (name) => {
     const details = {
-      name: name,
+      name: name
     }
     const response = await axios.post("http://localhost:3001/search/user", details)
     const searchId = response.data
@@ -135,8 +162,8 @@ class Homepage extends React.Component {
               id: this.state.id,
               searchId: this.state.searchId,
               following: this.state.following,
-              likedTweets: this.state.likedTweets
-            },
+              likedTweets: this.state.likedTweets,
+            }
           }}
         />
       )
@@ -146,9 +173,9 @@ class Homepage extends React.Component {
       <div>
         <SearchBar className="search-bar" onSearch={this.onSearch} />
         <Tweet onPostSubmit={this.onPost} />
-        <div>{this.state.data}</div>
-        <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} source='homepage' likedTweetIds={this.state.likedTweets} />
-        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} source='homepage' likedTweetIds={this.state.likedTweets} />
+        
+        <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} />
+        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} />
         <button onClick={this.myProfile}>Profile</button>
       </div>
     )

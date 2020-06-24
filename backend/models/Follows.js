@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+mongoose.set('useFindAndModify', false)
 
 const FollowSchema = new mongoose.Schema({
     own: {
@@ -6,8 +7,7 @@ const FollowSchema = new mongoose.Schema({
     },
 
     following: [{
-        type: mongoose.Schema.Types.ObjectId,
-        unique: true
+        type: mongoose.Schema.Types.ObjectId
     }]
 })
 

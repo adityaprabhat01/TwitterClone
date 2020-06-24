@@ -17,20 +17,18 @@ router.post("/signup", async (req, res) => {
 
   await newUser
     .save()
-    .then(data => console.log(data))
+    .then()
     .catch((err) => res.status(400).json("Error: " + err))
 
   await newFollowList
     .save()
-    .then(data => console.log(data))
+    .then()
     .catch((err) => res.status(400).json("Error: " + err))
 
   await newLikesList
     .save()
-    .then(data => console.log(data))
+    .then()
     .catch((err) => res.status(400).json("Error: " + err))
-
-  res.send(true)
 })
 
 router.post("/login", (req, res) => {
@@ -55,11 +53,9 @@ router.post("/tweet/user/:id", async (req, res) => {
       res.send(data._id)
     })
     .catch()
-  res.send(true)
 })
 
 router.get("/tweet/user/:id", async (req, res) => {
-  console.log(req.params.id)
   await User.find({ _id: req.params.id })
     .populate("tweets")
     .then((tweets) => {
@@ -74,33 +70,37 @@ router.get("/tweet/homepage/:id", async (req, res) => {
   var tweetsToSend = []
   var likedTweets = []
   var count = 0
+
   await Likes.find({ own: req.params.id })
     .then(data => {
       const likes = data[0].likes
-      likes.map(async tweetId => {
-        await likedTweets.push(tweetId)
+      likes.map(tweetId => {
+        likedTweets.push(tweetId)
       })
     })
-    .catch()
+    .catch(err => {})
 
   await Follow.find({ own: req.params.id })
     .then((data) => {
       const following = data[0].following
       const num = following.length
+      if (num === 0) {
+        res.send({ tweetsToSend, following, likedTweets })
+      }
       following.map(async (_id) => {
         await User.find({ _id })
           .populate("tweets")
-          .then(async (data) => {
-            await tweetsToSend.push(data[0].tweets)
+          .then((data) => {
+            tweetsToSend.push(data[0].tweets)
             count++
             if (num === count) {
               res.send({ tweetsToSend, following, likedTweets })
             }
           })
-          .catch()
+          .catch(err => {})
       })
     })
-    .catch()
+    .catch(err => {})
 })
 
 router.post("/follow", async (req, res) => {
@@ -109,7 +109,9 @@ router.post("/follow", async (req, res) => {
     { $push: { following: req.body.toFollow } },
     { new: true }
   )
-  res.send(true)
+  .then(data => {res.send(true)})
+  .catch(err => {})
+  
 })
 
 router.post("/unfollow", async (req, res) => {
@@ -117,8 +119,8 @@ router.post("/unfollow", async (req, res) => {
     { own: req.body.own },
     { $pull: { following: req.body.toUnfollow } }
   )
-    .then(res.send(true))
-    .catch()
+    .then(data => {res.send(true)})
+    .catch(err => {})
 })
 
 router.post("/tweet/delete", async (req, res) => {
@@ -132,7 +134,15 @@ router.post("/tweet/delete", async (req, res) => {
 })
 
 router.post("/likes", async (req, res) => {
-  await Likes.findOneAndUpdate({ own: req.body.id }, { $push: { likes: req.body.tweetId } }, { new: true } )//.then((data) => {
+  await Likes.findOneAndUpdate({ own: req.body.id }, { $push: { likes: req.body.tweetId } }, { new: true } )
+        .then(data => {res.send(true)})
+        .catch(err => {})
+})
+
+router.post("/unlikes", async (req, res) => {
+  await Likes.findOneAndUpdate({ own: req.body.id }, { $pull: { likes: req.body.tweetId } }, { new: true } )
+        .then(data => {res.send(true)})
+        .catch(err => {})
 })
 
 router.get('/likes/:id', async (req, res) => {

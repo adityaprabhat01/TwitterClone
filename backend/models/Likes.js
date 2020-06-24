@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+mongoose.set('useFindAndModify', false)
 const LikeSchema = new mongoose.Schema({
     own: {
         type: mongoose.Schema.Types.ObjectId,

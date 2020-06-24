@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const Tweet = require('./Tweet')
-
+mongoose.set('useFindAndModify', false)
 const UserSchema = new mongoose.Schema({
 
     name: {
