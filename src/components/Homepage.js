@@ -23,6 +23,7 @@ class Homepage extends React.Component {
     const id = this.props.location.state.id
     await this.setState({ id: id })
     const response = await axios.get(`http://localhost:3001/user/tweet/homepage/${this.state.id}`)
+
     response.data.tweetsToSend.map(tweets => {
       tweets.map(tweet => {
         var t = {
@@ -52,6 +53,8 @@ class Homepage extends React.Component {
         retweets: [...prevState.retweets, tweet]
       }))
     })
+
+    console.log(this.state.retweets)
   }
 
   myProfile = async (event) => {
@@ -118,6 +121,29 @@ class Homepage extends React.Component {
     await this.setState({ likedTweets: array })
   }
 
+  onUnretweet = async (event) => {
+    const text = event.target.parentElement.childNodes[0].textContent
+    var index = 0
+    var id_i = 0
+    var i = 0
+    while(true) {
+       if (this.state.tweets[index].tweet.includes(text)){
+         break
+       }
+       index++
+      }
+    const ids = {
+      id: this.state.id,
+      tweetId: this.state.tweets[index].tweetId,
+    }
+    const response = await axios.post('http://localhost:3001/user/unretweet', ids)
+    var array = [...this.state.retweets]
+    id_i = this.state.tweets[index].tweetId
+    i = array.indexOf(id_i)
+    array.splice(i, 1)
+    await this.setState({ retweets: array })
+  }
+
   onRetweet = async (event) => {
     const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
@@ -165,7 +191,6 @@ class Homepage extends React.Component {
               id: this.state.id,
               following: this.state.following,
               likedTweets: this.state.likedTweets,
-              retweets: this.state.retweets
             },
           }}
         />
@@ -193,8 +218,8 @@ class Homepage extends React.Component {
         <SearchBar className="search-bar" onSearch={this.onSearch} />
         <Tweet onPostSubmit={this.onPost} />
         
-        <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} />
-        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} onRetweet={this.onRetweet} />
+        <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} toRetweet={false} />
+        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} retweets={this.state.retweets} onRetweet={this.onRetweet} onUnretweet={this.onUnretweet} toRetweet={true} />
         <button onClick={this.myProfile}>Profile</button>
       </div>
     )

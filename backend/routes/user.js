@@ -215,4 +215,10 @@ router.post("/retweet", async (req, res) => {
         .catch(err => {})
 })
 
+router.post("/unretweet", async (req, res) => {
+  await Retweet.findOneAndUpdate({ own: req.body.id }, { $pull: { retweet: req.body.tweetId } }, { new: true })
+        .then(data => {res.send(true)})
+        .catch(err => {})
+})
+
 module.exports = router
