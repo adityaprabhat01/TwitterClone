@@ -326,18 +326,18 @@ class Profile extends React.Component {
     if (this.state.followed) {
       return (
         <div>
+          <button onClick={this.myHomepage} type="button" className="btn btn-primary">Homepage</button>
+          <button onClick={this.onUnfollow} type="button" className="btn btn-primary">Unfollow</button>
           <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
-          <button onClick={this.myHomepage}>Homepage</button>
-          <button onClick={this.onUnfollow}>Unfollow</button>
         </div>
       )
     }
     if (this.state.unfollowed) {
       return (
         <div>
+          <button onClick={this.myHomepage} type="button" className="btn btn-primary">Homepage</button>
+          <button onClick={this.onFollow} type="button" className="btn btn-primary">Follow</button>
           <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
-          <button onClick={this.myHomepage}>Homepage</button>
-          <button onClick={this.onFollow}>Follow</button>
         </div>
       )
     }
@@ -345,9 +345,9 @@ class Profile extends React.Component {
     if (this.state.viewLiked) {
       return (
         <div>
+          <button onClick={this.myHomepage} type="button" className="btn btn-primary">Homepage</button>
+          <button onClick={this.onHide} type="button" className="btn btn-primary">Hide</button>
           <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} liked={false} source='profile' likedTweets={this.state.likedTweets} />
-          <button onClick={this.myHomepage}>Homepage</button>
-          <button onClick={this.onHide}>Hide</button>
           <div>Liked Tweets</div>
           <TweetList tweets={this.state.showLikedTweets} onDeleteTile={this.onDelete} onUnlike={this.onUnlikeGlobally} liked={true} source='profile' likedTweets={this.state.likedTweets} />
         </div>
@@ -357,18 +357,18 @@ class Profile extends React.Component {
     if (this.state.ownProfile) {
       return (
         <div>
+          <button onClick={this.myHomepage} type="button" className="btn btn-primary">Homepage</button>
+          <button onClick={this.showLikes} type="button" className="btn btn-primary">Show likes</button>
           <TweetList tweets={this.state.retweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} onUnretweet={this.onUnretweetGlobally} toRetweet={true} />
           <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
-          <button onClick={this.myHomepage}>Homepage</button>
-          <button onClick={this.showLikes}>Show likes</button>
         </div>
       )
     }
     return (
       <div>
+        <button onClick={this.myHomepage} type="button" className="btn btn-primary">Homepage</button>
+        <button onClick={this.onFollow} type="button" className="btn btn-primary">Follow</button>
         <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
-        <button onClick={this.myHomepage}>Homepage</button>
-        <button onClick={this.onFollow}>Follow</button>
       </div>
     )
   }

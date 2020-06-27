@@ -268,11 +268,11 @@ class Homepage extends React.Component {
     return (
       <div>
         <SearchBar className="search-bar" onSearch={this.onSearch} />
+        <button onClick={this.myProfile} type="button" className="btn btn-primary">Profile</button>
         <Tweet onPostSubmit={this.onPost} />
         
         <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} toRetweet={false} />
         <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} retweets={this.state.retweets} onRetweet={this.onRetweet} onUnretweet={this.onUnretweet} toRetweet={true} />
-        <button onClick={this.myProfile}>Profile</button>
       </div>
     )
   }
