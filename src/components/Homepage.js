@@ -53,8 +53,6 @@ class Homepage extends React.Component {
         retweets: [...prevState.retweets, tweet]
       }))
     })
-
-    console.log(this.state.retweets)
   }
 
   myProfile = async (event) => {
@@ -82,36 +80,90 @@ class Homepage extends React.Component {
   onLike = async (event) => {
     const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
-    while(true) {
-       if (this.state.tweets[index].tweet.includes(text)){
-         break
-       }
-       index++
+    var flag = 0
+    var ids = {}
+    //from tweets
+    for(var i=0;i<this.state.tweets.length;i++) {
+      if (this.state.tweets[index].tweet.includes(text)){
+        flag = 1
+        break
+      }
+      index++
     }
-    const ids = {
-      id: this.state.id,
-      tweetId: this.state.tweets[index].tweetId,
+
+    //from posted tweets
+    if(flag === 0) {
+      index = 0
+      for(var i=0;i<this.state.postedTweets.length;i++) {
+        if (this.state.postedTweets[index].tweet.includes(text)){
+          break
+        }
+        index++
+      }
     }
+    
+    if (flag === 1) {
+      ids = {
+        id: this.state.id,
+        tweetId: this.state.tweets[index].tweetId,
+      }
+    }
+    else {
+      ids = {
+        id: this.state.id,
+        tweetId: this.state.postedTweets[index].tweetId,
+      }
+   }
     const response = await axios.post('http://localhost:3001/user/likes', ids)
-    this.setState((prevState) => ({
-      likedTweets: [...prevState.likedTweets, this.state.tweets[index].tweetId]
-    }))
+    if (flag === 1) {
+      this.setState((prevState) => ({
+        likedTweets: [...prevState.likedTweets, this.state.tweets[index].tweetId]
+      }))
+    }
+    else {
+      this.setState((prevState) => ({
+        likedTweets: [...prevState.likedTweets, this.state.postedTweets[index].tweetId]
+      }))
+    }
   }
 
   onUnlike = async (event) => {
     const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
+    var flag = 0
+    var ids = {}
     var id_i = 0
     var i = 0
-    while(true) {
-       if (this.state.tweets[index].tweet.includes(text)){
-         break
-       }
-       index++
+    //from tweets
+    for(var i=0;i<this.state.tweets.length;i++) {
+      if (this.state.tweets[index].tweet.includes(text)){
+        flag = 1
+        break
       }
-    const ids = {
-      id: this.state.id,
-      tweetId: this.state.tweets[index].tweetId,
+        index++
+      }
+    //from posted tweets
+    if (flag === 0) {
+      index = 0
+      for(var i=0;i<this.state.postedTweets.length;i++) {
+        if (this.state.postedTweets[index].tweet.includes(text)){
+          break
+        }
+        index++
+      }
+    }
+    
+    if (flag === 1) {
+      ids = {
+        id: this.state.id,
+        tweetId: this.state.tweets[index].tweetId,
+      }
+    }
+    else {
+      ids = {
+        id: this.state.id,
+        tweetId: this.state.postedTweets[index].tweetId,
+      }
     }
     const response = await axios.post('http://localhost:3001/user/unlikes', ids)
     var array = [...this.state.likedTweets]

@@ -1,11 +1,3 @@
-/* 
-  onDelete()
-  onLike()
-  onFollow()
-  onUnfollow()
-  showLikes()
-*/
-
 import React from "react"
 import axios from "axios"
 import TweetList from "./TweetList"
@@ -27,14 +19,14 @@ class Profile extends React.Component {
     ownProfile: false,
     viewLiked: false
   }
-  
+
   async componentDidMount() {
     const id = this.props.location.state.id
     const searchId = this.props.location.state.searchId
     const likedTweets = this.props.location.state.likedTweets
-    
+
     await this.setState({ id: id, searchId: searchId, likedTweets: likedTweets })
-    
+
     //others profile
     if (this.state.searchId) {
       const following = this.props.location.state.following
@@ -50,23 +42,23 @@ class Profile extends React.Component {
           }))
         })
       })
-      
+
       this.setState((prevState) => ({
         following: [...prevState.following, following],
       }))
 
       if (this.state.following[0].includes(this.state.searchId)) {
         this.setState({ followed: true })
-      } 
-    
+      }
+
       else {
         this.setState({ unfollowed: true })
       }
 
       this.setState({ ownProfile: false })
-      
-    } 
-    
+
+    }
+
     //my profile
     else if (this.state.id) {
       const following = this.props.location.state.following
@@ -82,13 +74,12 @@ class Profile extends React.Component {
           }))
         })
       })
-      
+
       this.setState((prevState) => ({
         following: [...prevState.following, following],
       }))
 
       const response2 = await axios.get(`http://localhost:3001/user/retweet/${this.state.id}`)
-      console.log(response2.data)
       response2.data.map((tweet) => {
         var t = {
           tweetId: tweet._id,
@@ -99,8 +90,6 @@ class Profile extends React.Component {
         }))
       })
       this.setState({ ownProfile: true })
-
-      console.log(this.state.retweets)
     }
   }
 
@@ -108,11 +97,11 @@ class Profile extends React.Component {
   onDelete = async (event) => {
     const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
-    while(true) {
-       if (this.state.tweets[index].tweet.includes(text)){
-         break
-       }
-       index++
+    while (true) {
+      if (this.state.tweets[index].tweet.includes(text)) {
+        break
+      }
+      index++
     }
     const ids = {
       id: this.state.id,
@@ -123,40 +112,95 @@ class Profile extends React.Component {
   }
 
   onLike = async (event) => {
+    console.log(event.target.parentElement.id)
     const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
-    while(true) {
-       if (this.state.tweets[index].tweet.includes(text)){
-         break
-       }
-       index++
+    var ids = {}
+    var flag = 0
+    for (var i = 0; i < this.state.tweets.length; i++) {
+      if (this.state.tweets[index].tweet.includes(text)) {
+        flag = 1
+        break
+      }
+      index++
     }
-    const ids = {
-      id: this.state.id,
-      tweetId: this.state.tweets[index].tweetId,
+    if (flag === 0) {
+      index = 0
+      for (var i = 0; i < this.state.retweets.length; i++) {
+        if (this.state.retweets[index].tweet.includes(text)) {
+          break
+        }
+        index++
+      }
     }
+
+
+    if (flag === 1) {
+      ids = {
+        id: this.state.id,
+        tweetId: this.state.tweets[index].tweetId,
+      }
+    }
+
+    else {
+      ids = {
+        id: this.state.id,
+        tweetId: this.state.retweets[index].tweetId,
+      }
+    }
+
     const response = axios.post('http://localhost:3001/user/likes', ids)
 
-    this.setState((prevState) => ({
-      likedTweets: [...prevState.likedTweets, this.state.tweets[index].tweetId]
-    }))
+    if (flag === 1) {
+      this.setState((prevState) => ({
+        likedTweets: [...prevState.likedTweets, this.state.tweets[index].tweetId]
+      }))
+    }
+    else {
+      this.setState((prevState) => ({
+        likedTweets: [...prevState.likedTweets, this.state.retweets[index].tweetId]
+      }))
+    }
   }
 
   onUnlike = async (event) => {
     const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
+    var ids = {}
+    var flag = 0
     var id_i = 0
     var i = 0
-    while(true) {
-       if (this.state.tweets[index].tweet.includes(text)){
-         break
-       }
-       index++
+    for (var i = 0; i < this.state.tweets.length; i++) {
+      if (this.state.tweets[index].tweet.includes(text)) {
+        flag = 1
+        break
       }
-    const ids = {
-      id: this.state.id,
-      tweetId: this.state.tweets[index].tweetId,
+      index++
     }
+    if (flag === 0) {
+      index = 0
+      for (var i = 0; i < this.state.retweets.length; i++) {
+        if (this.state.retweets[index].tweet.includes(text)) {
+          break
+        }
+        index++
+      }
+    }
+
+    if (flag === 1) {
+      ids = {
+        id: this.state.id,
+        tweetId: this.state.tweets[index].tweetId,
+      }
+    }
+
+    else {
+      ids = {
+        id: this.state.id,
+        tweetId: this.state.retweets[index].tweetId,
+      }
+    }
+
     const response = await axios.post('http://localhost:3001/user/unlikes', ids)
     var array = [...this.state.likedTweets]
     id_i = this.state.tweets[index].tweetId
@@ -170,18 +214,35 @@ class Profile extends React.Component {
     var index = 0
     var id_i = 0
     var i = 0
-    while(true) {
-       if (this.state.showLikedTweets[index].tweet.includes(text)){
-         break
-       }
-       index++
+    var flag = 0
+    while (true) {
+      if (this.state.showLikedTweets[index].tweet.includes(text)) {
+        break
       }
+      index++
+    }
     const ids = {
       id: this.state.id,
       tweetId: this.state.showLikedTweets[index].tweetId,
     }
     const response = await axios.post('http://localhost:3001/user/unlikes', ids)
-    this.showLikes()
+
+    if (this.state.likedTweets.includes(ids.tweetId)) {
+
+      var id_i = 0
+      var i = 0
+      for (var i = 0; i < this.state.likedTweets.length; i++) {
+        if (this.state.likedTweets[index] === ids.tweetId) {
+          var array = [...this.state.likedTweets]
+          //id_i = this.state.tweets[index].tweetId
+          i = array.indexOf(ids.tweetId)
+          array.splice(i, 1)
+          await this.setState({ likedTweets: array })
+        }
+        index++
+      }
+      this.showLikes()
+    }
   }
 
   onUnretweetGlobally = async (event) => {
@@ -189,12 +250,12 @@ class Profile extends React.Component {
     var index = 0
     var id_i = 0
     var i = 0
-    while(true) {
-       if (this.state.retweets[index].tweet.includes(text)){
-         break
-       }
-       index++
+    while (true) {
+      if (this.state.retweets[index].tweet.includes(text)) {
+        break
       }
+      index++
+    }
     const ids = {
       id: this.state.id,
       tweetId: this.state.retweets[index].tweetId,
@@ -227,7 +288,7 @@ class Profile extends React.Component {
     await this.setState({ followed: false, unfollowed: true })
   }
 
-  showLikes = async (event={}) => {
+  showLikes = async (event = {}) => {
     //event.preventDefault()
     const response = await axios.get(`http://localhost:3001/user/likes/${this.state.id}`)
     this.setState({ showLikedTweets: [] })
@@ -254,7 +315,7 @@ class Profile extends React.Component {
         <Redirect
           to={{
             pathname: "/homepage",
-            state: { 
+            state: {
               id: this.state.id
             },
           }}
@@ -274,30 +335,30 @@ class Profile extends React.Component {
     if (this.state.unfollowed) {
       return (
         <div>
-          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets}  />
+          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
           <button onClick={this.myHomepage}>Homepage</button>
           <button onClick={this.onFollow}>Follow</button>
         </div>
       )
     }
 
-    if(this.state.viewLiked) {
+    if (this.state.viewLiked) {
       return (
-      <div>
-        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} liked={false} source='profile' likedTweets={this.state.likedTweets}  />
-        <button onClick={this.myHomepage}>Homepage</button>
-        <button onClick={this.onHide}>Hide</button>
-        <div>Liked Tweets</div>
-        <TweetList tweets={this.state.showLikedTweets} onDeleteTile={this.onDelete} onUnlike={this.onUnlikeGlobally} liked={true} source='profile' likedTweets={this.state.likedTweets}  />
-      </div>
+        <div>
+          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} liked={false} source='profile' likedTweets={this.state.likedTweets} />
+          <button onClick={this.myHomepage}>Homepage</button>
+          <button onClick={this.onHide}>Hide</button>
+          <div>Liked Tweets</div>
+          <TweetList tweets={this.state.showLikedTweets} onDeleteTile={this.onDelete} onUnlike={this.onUnlikeGlobally} liked={true} source='profile' likedTweets={this.state.likedTweets} />
+        </div>
       )
     }
 
     if (this.state.ownProfile) {
       return (
         <div>
-          <TweetList tweets={this.state.retweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} onUnretweet={this.onUnretweetGlobally} toRetweet={true}  />
-          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets}  />
+          <TweetList tweets={this.state.retweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} onUnretweet={this.onUnretweetGlobally} toRetweet={true} />
+          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
           <button onClick={this.myHomepage}>Homepage</button>
           <button onClick={this.showLikes}>Show likes</button>
         </div>
@@ -305,7 +366,7 @@ class Profile extends React.Component {
     }
     return (
       <div>
-        <TweetList tweets={this.state.retweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets}  />
+        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
         <button onClick={this.myHomepage}>Homepage</button>
         <button onClick={this.onFollow}>Follow</button>
       </div>
