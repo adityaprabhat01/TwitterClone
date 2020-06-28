@@ -25,7 +25,7 @@ class LogIn extends React.Component {
 
     if (response.data.data === false) {
       this.setState({ isVerified: false, wrongPassword: true })
-    } 
+    }
     else {
       this.setState({
         isVerified: true,
@@ -57,35 +57,38 @@ class LogIn extends React.Component {
       return (
         <div>
           <div className="container">
-            <form className="form-group" onSubmit={this.logInUser}>
-              <label htmlFor="Username">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                onChange={(event) =>
-                  this.setState({ username: event.target.value })
-                }
-              />
+            <div class="col-8">
+              <form className="form-group" onSubmit={this.logInUser}>
+                <label htmlFor="Username">Username</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="username"
+                  onChange={(event) =>
+                    this.setState({ username: event.target.value })
+                  }
+                />
 
-              <label htmlFor="Password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                onChange={(event) =>
-                  this.setState({ password: event.target.value })
-                }
-              />
+                <label htmlFor="Password">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  onChange={(event) =>
+                    this.setState({ password: event.target.value })
+                  }
+                />
 
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={this.logInUser}
-              >
-                Login
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={this.logInUser}
+                >
+                  Login
               </button>
-            </form>
+              </form>
+            </div>
+
           </div>
           <div>Wrong Username or Password</div>
         </div>
@@ -94,35 +97,38 @@ class LogIn extends React.Component {
 
     return (
       <div className="container">
-        <form className="form-group" onSubmit={this.logInUser}>
-          <label htmlFor="Username">Username</label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            onChange={(event) =>
-              this.setState({ username: event.target.value })
-            }
-          />
+        <div class="col-8">
+          <form className="form-group" onSubmit={this.logInUser}>
+            <label htmlFor="Username">Username</label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              onChange={(event) =>
+                this.setState({ username: event.target.value })
+              }
+            />
 
-          <label htmlFor="Password">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            onChange={(event) =>
-              this.setState({ password: event.target.value })
-            }
-          />
+            <label htmlFor="Password">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              onChange={(event) =>
+                this.setState({ password: event.target.value })
+              }
+            />
 
-          <button
-            type="submit"
-            className="btn btn-primary"
-            onClick={this.logInUser}
-          >
-            Login
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={this.logInUser}
+            >
+              Login
           </button>
-        </form>
+          </form>
+        </div>
+
       </div>
     )
   }

@@ -19,7 +19,7 @@ class Homepage extends React.Component {
   }
 
   myHomepage = async () => {
-    
+
     const id = this.props.location.state.id
     await this.setState({ id: id })
     const response = await axios.get(`http://localhost:3001/user/tweet/homepage/${this.state.id}`)
@@ -35,7 +35,7 @@ class Homepage extends React.Component {
         }))
       })
     })
-    
+
     response.data.following.map((follow) => {
       this.setState((prevState) => ({
         following: [...prevState.following, follow],
@@ -83,8 +83,8 @@ class Homepage extends React.Component {
     var flag = 0
     var ids = {}
     //from tweets
-    for(var i=0;i<this.state.tweets.length;i++) {
-      if (this.state.tweets[index].tweet.includes(text)){
+    for (var i = 0; i < this.state.tweets.length; i++) {
+      if (this.state.tweets[index].tweet.includes(text)) {
         flag = 1
         break
       }
@@ -92,16 +92,16 @@ class Homepage extends React.Component {
     }
 
     //from posted tweets
-    if(flag === 0) {
+    if (flag === 0) {
       index = 0
-      for(var i=0;i<this.state.postedTweets.length;i++) {
-        if (this.state.postedTweets[index].tweet.includes(text)){
+      for (var i = 0; i < this.state.postedTweets.length; i++) {
+        if (this.state.postedTweets[index].tweet.includes(text)) {
           break
         }
         index++
       }
     }
-    
+
     if (flag === 1) {
       ids = {
         id: this.state.id,
@@ -113,7 +113,7 @@ class Homepage extends React.Component {
         id: this.state.id,
         tweetId: this.state.postedTweets[index].tweetId,
       }
-   }
+    }
     const response = await axios.post('http://localhost:3001/user/likes', ids)
     if (flag === 1) {
       this.setState((prevState) => ({
@@ -135,24 +135,24 @@ class Homepage extends React.Component {
     var id_i = 0
     var i = 0
     //from tweets
-    for(var i=0;i<this.state.tweets.length;i++) {
-      if (this.state.tweets[index].tweet.includes(text)){
+    for (var i = 0; i < this.state.tweets.length; i++) {
+      if (this.state.tweets[index].tweet.includes(text)) {
         flag = 1
         break
       }
-        index++
-      }
+      index++
+    }
     //from posted tweets
     if (flag === 0) {
       index = 0
-      for(var i=0;i<this.state.postedTweets.length;i++) {
-        if (this.state.postedTweets[index].tweet.includes(text)){
+      for (var i = 0; i < this.state.postedTweets.length; i++) {
+        if (this.state.postedTweets[index].tweet.includes(text)) {
           break
         }
         index++
       }
     }
-    
+
     if (flag === 1) {
       ids = {
         id: this.state.id,
@@ -178,12 +178,12 @@ class Homepage extends React.Component {
     var index = 0
     var id_i = 0
     var i = 0
-    while(true) {
-       if (this.state.tweets[index].tweet.includes(text)){
-         break
-       }
-       index++
+    while (true) {
+      if (this.state.tweets[index].tweet.includes(text)) {
+        break
       }
+      index++
+    }
     const ids = {
       id: this.state.id,
       tweetId: this.state.tweets[index].tweetId,
@@ -199,11 +199,11 @@ class Homepage extends React.Component {
   onRetweet = async (event) => {
     const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
-    while(true) {
-       if (this.state.tweets[index].tweet.includes(text)){
-         break
-       }
-       index++
+    while (true) {
+      if (this.state.tweets[index].tweet.includes(text)) {
+        break
+      }
+      index++
     }
     const ids = {
       id: this.state.id,
@@ -239,7 +239,7 @@ class Homepage extends React.Component {
         <Redirect
           to={{
             pathname: "/profile",
-            state: { 
+            state: {
               id: this.state.id,
               following: this.state.following,
               likedTweets: this.state.likedTweets,
@@ -270,9 +270,11 @@ class Homepage extends React.Component {
         <SearchBar className="search-bar" onSearch={this.onSearch} />
         <button onClick={this.myProfile} type="button" className="btn btn-primary">Profile</button>
         <Tweet onPostSubmit={this.onPost} />
-        
-        <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} toRetweet={false} />
-        <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} retweets={this.state.retweets} onRetweet={this.onRetweet} onUnretweet={this.onUnretweet} toRetweet={true} />
+        <div className="container" style={{ marginTop: "1rem" }}>
+          <TweetList tweets={this.state.postedTweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} toRetweet={false} />
+          <TweetList tweets={this.state.tweets} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} retweets={this.state.retweets} onRetweet={this.onRetweet} onUnretweet={this.onUnretweet} toRetweet={true} />
+        </div>
+
       </div>
     )
   }

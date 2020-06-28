@@ -149,6 +149,12 @@ router.post("/tweet/delete", async (req, res) => {
     .then()
     .catch()
   await Tweet.findOneAndRemove({ _id: req.body.tweetId }).then().catch()
+  await Likes.findOneAndUpdate({ own: req.body.id }, { $pull: { likes: req.body.tweetId } }, { new: true })
+  .then(data => {})
+  .catch(err => {})
+  await Retweet.findOneAndUpdate({ own: req.body.id }, { $pull: { retweet: req.body.tweetId } }, { new: true })
+  .then(data => {})
+  .catch(err => {})
 })
 
 router.post("/likes", async (req, res) => {

@@ -109,10 +109,10 @@ class Profile extends React.Component {
     }
     event.target.parentElement.remove()
     const response = await axios.post('http://localhost:3001/user/tweet/delete', ids)
+    //update the state by removing the tweet
   }
 
   onLike = async (event) => {
-    console.log(event.target.parentElement.id)
     const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
     var ids = {}
@@ -234,7 +234,6 @@ class Profile extends React.Component {
       for (var i = 0; i < this.state.likedTweets.length; i++) {
         if (this.state.likedTweets[index] === ids.tweetId) {
           var array = [...this.state.likedTweets]
-          //id_i = this.state.tweets[index].tweetId
           i = array.indexOf(ids.tweetId)
           array.splice(i, 1)
           await this.setState({ likedTweets: array })

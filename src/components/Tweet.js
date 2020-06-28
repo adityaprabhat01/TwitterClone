@@ -15,19 +15,27 @@ class Tweet extends React.Component {
   render() {
     return (
       <div className="container">
-        <textarea
-          onChange={this.onTextChange}
-          value={this.state.text}
-          rows="4"
-          cols="50"
-          placeholder="whats happening"
-        />
-        <input
-          onClick={this.onPostSubmit}
-          type="button"
-          className="btn btn-primary"
-          value="Post"
-        />
+        <div class="col-8">
+          <div class="input-group">
+            <textarea
+              class="form-control"
+              onChange={this.onTextChange}
+              value={this.state.text}
+              rows="4"
+              cols="50"
+              placeholder="whats happening"
+            />
+
+          </div>
+          <input
+            onClick={this.onPostSubmit}
+            type="button"
+            className="btn btn-primary"
+            value="Post"
+            style={{ marginTop: "2rem" }}
+          />
+        </div>
+
       </div>
     );
   }
