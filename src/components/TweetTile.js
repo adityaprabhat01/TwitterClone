@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, source, likedTweets, retweets, onRetweet, onUnretweet, retweeted, toRetweet }) => {
+const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile, onLike, onUnlike, liked, source, likedTweets, retweets, onRetweet, onUnretweet, retweeted, toRetweet }) => {
   //like + not retweet
   if (tweet !== '' && source === 'homepage' && likedTweets.includes(tweetId) && toRetweet && !retweets.includes(tweetId)) {
     return (
@@ -10,6 +10,8 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{tweetDetails.name}</span>
+              <span>{tweetDetails.username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onUnlike(event)} type="button" className="btn btn-primary">Unlike</button>
               <button onClick={(event) => onRetweet(event)} type="button" className="btn btn-primary">Retweet</button>
@@ -17,13 +19,6 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onUnlike(event)}>Unlike</button>
-        <button onClick={(event) => onRetweet(event)}>Retweet</button>
-      </div>*/
     );
   }
   //not like + not retweet
@@ -35,6 +30,8 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{tweetDetails.name}</span>
+              <span>{tweetDetails.username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onLike(event)} type="button" className="btn btn-primary">Like</button>
               <button onClick={(event) => onRetweet(event)} type="button" className="btn btn-primary">Retweet</button>
@@ -42,13 +39,6 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onLike(event)}>Like</button>
-        <button onClick={(event) => onRetweet(event)}>Retweet</button>
-      </div>*/
     );
   }
   //like + retweet
@@ -60,6 +50,8 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{tweetDetails.name}</span>
+              <span>{tweetDetails.username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onUnlike(event)} type="button" className="btn btn-primary">Unlike</button>
               <button onClick={(event) => onUnretweet(event)} type="button" className="btn btn-primary">Retweeted</button>
@@ -67,13 +59,6 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onUnlike(event)}>Unlike</button>
-        <button onClick={(event) => onUnretweet(event)}>Retweeted</button>
-      </div>*/
     );
   }
   //not like + retweet
@@ -85,6 +70,8 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{tweetDetails.name}</span>
+              <span>{tweetDetails.username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onLike(event)} type="button" className="btn btn-primary">Like</button>
               <button onClick={(event) => onUnretweet(event)} type="button" className="btn btn-primary">Retweeted</button>
@@ -92,17 +79,11 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onLike(event)}>Like</button>
-        <button onClick={(event) => onUnretweet(event)}>Retweeted</button>
-      </div>*/
     );
   }
   //my tweets liked
   else if (tweet !== '' && source === 'homepage' && likedTweets.includes(tweetId)) {
+    
     return (
 
       <div className="container">
@@ -110,18 +91,14 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{name}</span>
+              <span>{username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onUnlike(event)} type="button" className="btn btn-primary">Unlike</button>
             </div>
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onUnlike(event)}>Unlike</button>
-      </div>*/
     );
   }
   //my tweets not liked
@@ -133,18 +110,14 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{name}</span>
+              <span>{username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onLike(event)} type="button" className="btn btn-primary">Like</button>
             </div>
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onLike(event)}>Like</button>
-      </div>*/
     );
   }
 
@@ -156,18 +129,14 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{tweetDetails.name}</span>
+              <span>{tweetDetails.username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onUnlike(event)} type="button" className="btn btn-primary">Unlike</button>
             </div>
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onUnlike(event)}>Unlike</button>
-      </div>*/
     );
   }
   //my tweets liked
@@ -179,6 +148,8 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{tweetDetails.name}</span>
+              <span>{tweetDetails.username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onUnlike(event)} type="button" className="btn btn-primary">Unlike</button>
               <button onClick={(event) => onDeleteTile(event)} type="button" className="btn btn-primary">Delete</button>
@@ -186,15 +157,6 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onUnlike(event)}>Unlike</button>
-        <button onClick={(event) => onDeleteTile(event)} type="button" className="btn btn-primary">
-          Delete
-        </button>
-      </div>*/
     );
   }
   //my tweets not liked
@@ -206,6 +168,8 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{tweetDetails.name}</span>
+              <span>{tweetDetails.username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onLike(event)} type="button" className="btn btn-primary">Like</button>
               <button onClick={(event) => onDeleteTile(event)} type="button" className="btn btn-primary">Delete</button>
@@ -213,15 +177,6 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onLike(event)}>Like</button>
-        <button onClick={(event) => onDeleteTile(event)} type="button" className="btn btn-primary">
-          Delete
-        </button>
-      </div>*/
     );
   }
   //like + retweeted
@@ -232,6 +187,8 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{name}</span>
+              <span>{username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onUnlike(event)} type="button" className="btn btn-primary">Unlike</button>
               <button onClick={(event) => onUnretweet(event)} type="button" className="btn btn-primary">Retweeted</button>
@@ -239,13 +196,6 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           </div>
         </div>
       </div>
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onUnlike(event)}>Unlike</button>
-        <button onClick={(event) => onUnretweet(event)}>Retweeted</button>
-      </div>*/
     );
   }
   //not like + retweet
@@ -256,6 +206,8 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           <div class="card bg-light mb-3" style={{ maxWidth: "100%", marginTop: "1rem", border: "none" }}>
             
             <div class="card-body" style={{ backgroundColor: "#ffffff" }}>
+              <span>{name}</span>
+              <span>{username}</span>
               <p class="card-text">{tweet}</p>
               <button onClick={(event) => onLike(event)} type="button" className="btn btn-primary">Like</button>
               <button onClick={(event) => onUnretweet(event)} type="button" className="btn btn-primary">Retweeted</button>
@@ -263,14 +215,6 @@ const TweetTile = ({ tweet, tweetId, onDeleteTile, onLike, onUnlike, liked, sour
           </div>
         </div>
       </div>
-
-
-
-      /*<div className="container">
-        {tweet}
-        <button onClick={(event) => onLike(event)}>Like</button>
-        <button onClick={(event) => onUnretweet(event)}>Retweeted</button>
-      </div>*/
     );
   }
   else {
