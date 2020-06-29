@@ -15,7 +15,7 @@ class Tweet extends React.Component {
   render() {
     return (
       <div className="container">
-        <div class="col-8">
+        <div class="col-8" style={{ maxWidth: "630px" }}>
           <div class="input-group">
             <textarea
               class="form-control"

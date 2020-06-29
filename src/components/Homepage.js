@@ -94,7 +94,7 @@ class Homepage extends React.Component {
   }
 
   onLike = async (event) => {
-    const text = event.target.parentElement.childNodes[2].textContent
+    const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
     var flag = 0
     var ids = {}
@@ -144,7 +144,7 @@ class Homepage extends React.Component {
   }
 
   onUnlike = async (event) => {
-    const text = event.target.parentElement.childNodes[2].textContent
+    const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
     var flag = 0
     var ids = {}
@@ -190,7 +190,7 @@ class Homepage extends React.Component {
   }
 
   onUnretweet = async (event) => {
-    const text = event.target.parentElement.childNodes[2].textContent
+    const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
     var id_i = 0
     var i = 0
@@ -213,7 +213,7 @@ class Homepage extends React.Component {
   }
 
   onRetweet = async (event) => {
-    const text = event.target.parentElement.childNodes[2].textContent
+    const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
     while (true) {
       if (this.state.tweets[index].tweet.includes(text)) {

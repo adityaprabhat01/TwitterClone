@@ -117,8 +117,8 @@ class Profile extends React.Component {
 
       response2.data.tweetDetails.map((tweet) => {
         var t = {
-          tweetId: tweet.name,
-          tweet: tweet.username
+          name: tweet.name,
+          username: tweet.username
         }
         this.setState((prevState) => ({
           retweetDetails: [...prevState.retweetDetails, t]
@@ -130,8 +130,10 @@ class Profile extends React.Component {
 
   //delete tweet
   onDelete = async (event) => {
-    const text = event.target.parentElement.childNodes[2].textContent
+    const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
+    var id_i = 0
+    var i = 0
     while (true) {
       if (this.state.tweets[index].tweet.includes(text)) {
         break
@@ -148,7 +150,7 @@ class Profile extends React.Component {
   }
 
   onLike = async (event) => {
-    const text = event.target.parentElement.childNodes[2].textContent
+    const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
     var ids = {}
     var flag = 0
@@ -199,7 +201,7 @@ class Profile extends React.Component {
   }
 
   onUnlike = async (event) => {
-    const text = event.target.parentElement.childNodes[2].textContent
+    const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
     var ids = {}
     var flag = 0
@@ -245,7 +247,7 @@ class Profile extends React.Component {
   }
 
   onUnlikeGlobally = async (event) => {
-    const text = event.target.parentElement.childNodes[2].textContent
+    const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
     var id_i = 0
     var i = 0
@@ -280,7 +282,7 @@ class Profile extends React.Component {
   }
 
   onUnretweetGlobally = async (event) => {
-    const text = event.target.parentElement.childNodes[2].textContent
+    const text = event.target.parentElement.childNodes[0].textContent
     var index = 0
     var id_i = 0
     var i = 0
