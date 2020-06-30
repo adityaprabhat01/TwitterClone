@@ -5,3 +5,14 @@
 .xyz {
     
 }
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+card-text-font {
+    font-family: 'Poppins', sans-serif;
+    font-size: 5px;
+    color: green;
+}
