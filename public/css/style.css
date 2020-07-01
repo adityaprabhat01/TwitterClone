@@ -2,9 +2,6 @@
     width: auto
 }
 
-.xyz {
-    
-}
 img {
     display: block;
     max-width: 100%;
@@ -14,5 +11,14 @@ img {
 card-text-font {
     font-family: 'Poppins', sans-serif;
     font-size: 5px;
-    color: green;
 }
+  
+  .boundary {
+    height:2px;
+    background-color:#1B95E0;
+  }
+
+  .form-font {
+    font-size: 15px;
+    font-family: 'Roboto', sans-serif;
+  }

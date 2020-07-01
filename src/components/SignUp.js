@@ -1,47 +1,77 @@
-import React from 'react'
-import axios from 'axios'
+import React from "react";
+import axios from "axios";
 
 class SignUp extends React.Component {
-
-    state = { name: '', email: '', username: '', password: '' }
+    state = { name: "", email: "", username: "", password: "" };
 
     onCreateUser = (event) => {
-
         const newUser = {
             name: this.state.name,
             email: this.state.email,
             username: this.state.username,
-            password: this.state.password
-        }
+            password: this.state.password,
+        };
 
-        const response = axios.post('http://localhost:3001/user/signup', newUser)
-
-    }
+        const response = axios.post("http://localhost:3001/user/signup", newUser);
+    };
 
     render() {
         return (
-            <div className="container">
-                <div class="col-8">
-                    <form className="form-group" onSubmit={this.onCreateUser}>
-                        <label htmlFor="Name">Name</label>
-                        <input type="text" className="form-control" id="name" onChange={(event) => this.setState({ name: event.target.value })} />
+            <div class="jumbotron d-flex align-items-center min-vh-100 bg-white p-0">
+                <div class="container">
 
-                        <label htmlFor="Email">Email</label>
-                        <input type="email" className="form-control" id="email" onChange={(event) => this.setState({ email: event.target.value })} />
+                    <form class="mx-auto p-3 mt-5" style={{ maxWidth: "800", border: "2px solid #1DA1F2", borderRadius: "20px" }} onSubmit={this.onCreateUser}>
+                        <div class="pb-2">
+                            <span><h2>Create your account</h2></span>
+                        </div>
+                        <div class="form-group mt-3 form-font">
+                            <div class="bg-light rounded mt-3">
+                                <div class="ml-1">
+                                    <span class="font-weight-light">Name</span>
+                                </div>
+                                <div>
+                                    <input type="text" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ name: event.target.value })} />
+                                </div>
+                                <hr class="mt-0 border-0 boundary" />
+                            </div>
 
-                        <label htmlFor="Username">Username</label>
-                        <input type="username" className="form-control" id="username" onChange={(event) => this.setState({ username: event.target.value })} />
+                            <div class="bg-light rounded mt-3">
+                                <div class="ml-1">
+                                    <span class="font-weight-light">Email</span>
+                                </div>
+                                <div>
+                                    <input type="text" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ email: event.target.value })} />
+                                </div>
+                                <hr class="mt-0 border-0 boundary" />
+                            </div>
 
-                        <label htmlFor="Password">Password</label>
-                        <input type="password" className="form-control" id="password" onChange={(event) => this.setState({ password: event.target.value })} />
+                            <div class="bg-light rounded mt-3">
+                                <div class="ml-1">
+                                    <span class="font-weight-light">Username</span>
+                                </div>
+                                <div>
+                                    <input type="text" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ username: event.target.value })} />
+                                </div>
+                                <hr class="mt-0 border-0 boundary" />
+                            </div>
 
-                        <button type="submit" className="btn btn-primary">Sign Up</button>
+                            <div class="bg-light rounded mt-3">
+                                <div class="ml-1">
+                                    <span class="font-weight-light">Password</span>
+                                </div>
+                                <div>
+                                    <input type="password" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ password: event.target.value })} />
+                                </div>
+                                <hr class="mt-0 border-0 boundary" />
+                            </div>
+
+                        </div>
+                        <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Sign Up</button>
                     </form>
                 </div>
-
             </div>
-        )
+        );
     }
 }
 
-export default SignUp
+export default SignUp;

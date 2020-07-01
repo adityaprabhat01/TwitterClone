@@ -55,81 +55,81 @@ class LogIn extends React.Component {
     //username or password is wrong
     if (this.state.wrongPassword) {
       return (
-        <div>
-          <div className="container">
-            <div class="col-8">
-              <form className="form-group" onSubmit={this.logInUser}>
-                <label htmlFor="Username">Username</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="username"
-                  onChange={(event) =>
-                    this.setState({ username: event.target.value })
-                  }
-                />
+        
+        <div class="jumbotron d-flex flex-column align-items-center min-vh-100 bg-white p-0">
+        <div class="container">
 
-                <label htmlFor="Password">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="password"
-                  onChange={(event) =>
-                    this.setState({ password: event.target.value })
-                  }
-                />
+            <form class="mx-auto p-3 mt-5" style={{ maxWidth: "800", border: "2px solid #1DA1F2", borderRadius: "20px" }} onSubmit={this.logInUser}>
+                <div class="pb-2">
+                    <span><h2>Log in to Twitter</h2></span>
+                </div>
+                <div class="form-group mt-3 form-font">
+                    <div class="bg-light rounded mt-3">
+                        <div class="ml-1">
+                            <span class="font-weight-light">Username</span>
+                        </div>
+                        <div>
+                            <input type="text" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ username: event.target.value })} />
+                        </div>
+                        <hr class="mt-0 border-0 boundary" />
+                    </div>
 
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={this.logInUser}
-                >
-                  Login
-              </button>
-              </form>
-            </div>
+                    <div class="bg-light rounded mt-3">
+                        <div class="ml-1">
+                            <span class="font-weight-light">Password</span>
+                        </div>
+                        <div>
+                            <input type="password" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ password: event.target.value })} />
+                        </div>
+                        <hr class="mt-0 border-0 boundary" />
+                    </div>
 
-          </div>
-          <div>Wrong Username or Password</div>
+                </div>
+                <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Log in</button>
+            </form>
         </div>
+        <span>Wrong Username or Password</span>
+    </div>
+          
+        
       )
     }
 
     return (
-      <div className="container">
-        <div class="col-8">
-          <form className="form-group" onSubmit={this.logInUser}>
-            <label htmlFor="Username">Username</label>
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              onChange={(event) =>
-                this.setState({ username: event.target.value })
-              }
-            />
 
-            <label htmlFor="Password">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              onChange={(event) =>
-                this.setState({ password: event.target.value })
-              }
-            />
+      <div class="jumbotron d-flex align-items-center min-vh-100 bg-white p-0">
+                <div class="container">
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={this.logInUser}
-            >
-              Login
-          </button>
-          </form>
-        </div>
+                    <form class="mx-auto p-3 mt-5" style={{ maxWidth: "800", border: "2px solid #1DA1F2", borderRadius: "20px" }} onSubmit={this.logInUser}>
+                        <div class="pb-2">
+                            <span><h2>Log in to Twitter</h2></span>
+                        </div>
+                        <div class="form-group mt-3 form-font">
+                            <div class="bg-light rounded mt-3">
+                                <div class="ml-1">
+                                    <span class="font-weight-light">Username</span>
+                                </div>
+                                <div>
+                                    <input type="text" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ username: event.target.value })} />
+                                </div>
+                                <hr class="mt-0 border-0 boundary" />
+                            </div>
 
-      </div>
+                            <div class="bg-light rounded mt-3">
+                                <div class="ml-1">
+                                    <span class="font-weight-light">Password</span>
+                                </div>
+                                <div>
+                                    <input type="password" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ password: event.target.value })} />
+                                </div>
+                                <hr class="mt-0 border-0 boundary" />
+                            </div>
+
+                        </div>
+                        <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Log in</button>
+                    </form>
+                </div>
+            </div>
     )
   }
 }

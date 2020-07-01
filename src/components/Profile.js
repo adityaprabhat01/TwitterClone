@@ -35,7 +35,7 @@ class Profile extends React.Component {
     if (this.state.searchId) {
       const following = this.props.location.state.following
       const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.searchId}`)
-      
+
       response.data.tweetsToSend.map(tweets => {
         tweets.map(tweet => {
           var t = {
@@ -70,7 +70,7 @@ class Profile extends React.Component {
         this.setState({ unfollowed: true })
       }
 
-      this.setState({ ownProfile: false , othersProfile: true})
+      this.setState({ ownProfile: false, othersProfile: true })
 
     }
 
@@ -89,7 +89,7 @@ class Profile extends React.Component {
           }))
         })
       })
-      
+
       response1.data.tweetDetails.map(tweet => {
         var t = {
           name: tweet.name,
@@ -130,7 +130,7 @@ class Profile extends React.Component {
 
   //delete tweet
   onDelete = async (event) => {
-    const text = event.target.parentElement.childNodes[0].textContent
+    const text = event.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent
     var index = 0
     var id_i = 0
     var i = 0
@@ -144,13 +144,13 @@ class Profile extends React.Component {
       id: this.state.id,
       tweetId: this.state.tweets[index].tweetId,
     }
-    event.target.parentElement.remove()
+    event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
     const response = await axios.post('http://localhost:3001/user/tweet/delete', ids)
     //update the state by removing the tweet
   }
 
   onLike = async (event) => {
-    const text = event.target.parentElement.childNodes[0].textContent
+    const text = event.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent
     var index = 0
     var ids = {}
     var flag = 0
@@ -201,7 +201,7 @@ class Profile extends React.Component {
   }
 
   onUnlike = async (event) => {
-    const text = event.target.parentElement.childNodes[0].textContent
+    const text = event.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent
     var index = 0
     var ids = {}
     var flag = 0
@@ -247,7 +247,7 @@ class Profile extends React.Component {
   }
 
   onUnlikeGlobally = async (event) => {
-    const text = event.target.parentElement.childNodes[0].textContent
+    const text = event.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent
     var index = 0
     var id_i = 0
     var i = 0
@@ -282,7 +282,7 @@ class Profile extends React.Component {
   }
 
   onUnretweetGlobally = async (event) => {
-    const text = event.target.parentElement.childNodes[0].textContent
+    const text = event.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent
     var index = 0
     var id_i = 0
     var i = 0
@@ -370,29 +370,52 @@ class Profile extends React.Component {
 
     if (this.state.followed && this.state.othersProfile) {
       return (
-        <div>
-          <button onClick={this.myHomepage} type="button" className="btn btn-primary">Homepage</button>
-          <button onClick={this.onUnfollow} type="button" className="btn btn-primary">Unfollow</button>
-          <TweetList tweets={this.state.tweets}  tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
+
+        <div class="container mt-3">
+          <div class="d-flex flex-row justify-content-between mx-auto mb-4" style={{ maxWidth: "600px" }}>
+            <div>
+              <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.myHomepage}>Homepage</button>
+            </div>
+            <div>
+              <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.onUnfollow}>Unfollow</button>
+            </div>
+          </div>
+
+          <TweetList tweets={this.state.tweets} tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
         </div>
       )
     }
     if (this.state.unfollowed && this.state.othersProfile) {
       return (
-        <div>
-          <button onClick={this.myHomepage} type="button" className="btn btn-primary">Homepage</button>
-          <button onClick={this.onFollow} type="button" className="btn btn-primary">Follow</button>
-          <TweetList tweets={this.state.tweets}  tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
+
+        <div class="container mt-3">
+          <div class="d-flex flex-row justify-content-between mx-auto mb-4" style={{ maxWidth: "600px" }}>
+            <div>
+              <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.myHomepage}>Homepage</button>
+            </div>
+            <div>
+              <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.onFollow}>Follow</button>
+            </div>
+          </div>
+
+          <TweetList tweets={this.state.tweets} tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
         </div>
       )
     }
 
     if (this.state.viewLiked) {
       return (
-        <div>
-          <button onClick={this.myHomepage} type="button" className="btn btn-primary">Homepage</button>
-          <button onClick={this.onHide} type="button" className="btn btn-primary">Hide</button>
-          
+
+        <div class="container mt-3">
+          <div class="d-flex flex-row justify-content-between mx-auto mb-4" style={{ maxWidth: "600px" }}>
+            <div>
+              <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.myHomepage}>Homepage</button>
+            </div>
+            <div>
+              <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.onHide}>Hide</button>
+            </div>
+          </div>
+
           <div>Liked Tweets</div>
           <TweetList tweets={this.state.showLikedTweets} tweetDetails={this.state.showLikedTweetDetails} onDeleteTile={this.onDelete} onUnlike={this.onUnlikeGlobally} liked={true} source='profile' likedTweets={this.state.likedTweets} />
         </div>
@@ -401,9 +424,16 @@ class Profile extends React.Component {
 
     if (this.state.ownProfile) {
       return (
-        <div>
-          <button onClick={this.myHomepage} type="button" className="btn btn-primary">Homepage</button>
-          <button onClick={this.showLikes} type="button" className="btn btn-primary">Show likes</button>
+        <div class="container mt-3">
+          <div class="d-flex flex-row justify-content-between mx-auto mb-4" style={{ maxWidth: "600px" }}>
+            <div>
+              <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.myHomepage}>Homepage</button>
+            </div>
+            <div>
+              <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.showLikes}>Show likes</button>
+            </div>
+          </div>
+
           <TweetList tweets={this.state.retweets} tweetDetails={this.state.retweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} onUnretweet={this.onUnretweetGlobally} toRetweet={true} />
           <TweetList tweets={this.state.tweets} tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
         </div>
@@ -419,7 +449,7 @@ class Profile extends React.Component {
     //     </div>
     //   )
     // }
-    
+
     return (
       <div></div>
     )

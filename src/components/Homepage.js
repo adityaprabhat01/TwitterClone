@@ -94,7 +94,7 @@ class Homepage extends React.Component {
   }
 
   onLike = async (event) => {
-    const text = event.target.parentElement.childNodes[0].textContent
+    const text = event.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent
     var index = 0
     var flag = 0
     var ids = {}
@@ -144,7 +144,7 @@ class Homepage extends React.Component {
   }
 
   onUnlike = async (event) => {
-    const text = event.target.parentElement.childNodes[0].textContent
+    const text = event.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent
     var index = 0
     var flag = 0
     var ids = {}
@@ -190,7 +190,7 @@ class Homepage extends React.Component {
   }
 
   onUnretweet = async (event) => {
-    const text = event.target.parentElement.childNodes[0].textContent
+    const text = event.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent
     var index = 0
     var id_i = 0
     var i = 0
@@ -213,7 +213,7 @@ class Homepage extends React.Component {
   }
 
   onRetweet = async (event) => {
-    const text = event.target.parentElement.childNodes[0].textContent
+    const text = event.target.parentElement.parentElement.parentElement.childNodes[0].childNodes[0].textContent
     var index = 0
     while (true) {
       if (this.state.tweets[index].tweet.includes(text)) {
@@ -283,15 +283,20 @@ class Homepage extends React.Component {
     if (this.state.myHomepage) {
       return (
         <div>
-          <SearchBar className="search-bar" onSearch={this.onSearch} />
-          <button onClick={this.myProfile} type="button" className="btn btn-primary">Profile</button>
-          <span>{this.state.name}</span>
+          <SearchBar className="search-bar" onSearch={this.onSearch} myProfile={this.myProfile} />
+          <div class="m-3">
+            <div class="mx-auto" style={{ maxWidth: "600px" }}>
+              <span class="">{this.state.name}</span>
+            </div>
+
+          </div>
+
           <Tweet onPostSubmit={this.onPost} />
           <div className="container" style={{ marginTop: "1rem" }}>
             <TweetList tweets={this.state.postedTweets} tweetDetails={this.state.tweetDetails} name={this.state.name} username={this.state.username} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} toRetweet={false} />
             <TweetList tweets={this.state.tweets} tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='homepage' likedTweets={this.state.likedTweets} retweets={this.state.retweets} onRetweet={this.onRetweet} onUnretweet={this.onUnretweet} toRetweet={true} />
           </div>
-  
+
         </div>
       )
     }
@@ -299,7 +304,7 @@ class Homepage extends React.Component {
     return (
       <div></div>
     )
-    
+
   }
 }
 
