@@ -22,3 +22,9 @@ card-text-font {
     font-size: 15px;
     font-family: 'Roboto', sans-serif;
   }
+
+  .button-1 {
+    background-color: #1DA1F2;
+    border-radius: 75px;
+    border:none;
+  }

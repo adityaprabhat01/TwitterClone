@@ -286,7 +286,7 @@ class Homepage extends React.Component {
           <SearchBar className="search-bar" onSearch={this.onSearch} myProfile={this.myProfile} />
           <div class="m-3">
             <div class="mx-auto" style={{ maxWidth: "600px" }}>
-              <span class="">{this.state.name}</span>
+              <span>{this.state.name}</span>
             </div>
 
           </div>

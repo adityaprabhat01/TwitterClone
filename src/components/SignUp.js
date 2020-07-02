@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 
 class SignUp extends React.Component {
-    state = { name: "", email: "", username: "", password: "" };
+    state = { name: "", email: "", username: "", password: "", login: false };
 
     onCreateUser = (event) => {
         const newUser = {

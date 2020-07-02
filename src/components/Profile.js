@@ -296,7 +296,7 @@ class Profile extends React.Component {
       id: this.state.id,
       tweetId: this.state.retweets[index].tweetId,
     }
-    event.target.parentElement.remove()
+    event.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove()
     const response = await axios.post('http://localhost:3001/user/unretweet', ids)
   }
 
@@ -377,11 +377,11 @@ class Profile extends React.Component {
               <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.myHomepage}>Homepage</button>
             </div>
             <div>
-              <button class="btn btn-primary border-0" style={{ borderRadius: "75px", backgroundColor: "#1DA1F2" }} onClick={this.onUnfollow}>Unfollow</button>
+              <button class="btn btn-secondary border-0" style={{ borderRadius: "75px" }} onClick={this.onUnfollow}>Unfollow</button>
             </div>
           </div>
 
-          <TweetList tweets={this.state.tweets} tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
+          <TweetList tweets={this.state.tweets} tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} othersProfile={this.state.othersProfile} toRetweet={true} />
         </div>
       )
     }
@@ -398,7 +398,7 @@ class Profile extends React.Component {
             </div>
           </div>
 
-          <TweetList tweets={this.state.tweets} tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} />
+          <TweetList tweets={this.state.tweets} tweetDetails={this.state.tweetDetails} onDeleteTile={this.onDelete} onLike={this.onLike} onUnlike={this.onUnlike} source='profile' likedTweets={this.state.likedTweets} othersProfile={this.state.othersProfile} toRetweet={true} />
         </div>
       )
     }
@@ -416,7 +416,9 @@ class Profile extends React.Component {
             </div>
           </div>
 
-          <div>Liked Tweets</div>
+          <div class="mx-auto m-3" style={{ maxWidth: "600px" }}>
+            <span>Liked Tweets</span>
+          </div>
           <TweetList tweets={this.state.showLikedTweets} tweetDetails={this.state.showLikedTweetDetails} onDeleteTile={this.onDelete} onUnlike={this.onUnlikeGlobally} liked={true} source='profile' likedTweets={this.state.likedTweets} />
         </div>
       )
