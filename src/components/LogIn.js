@@ -10,6 +10,7 @@ class LogIn extends React.Component {
     isVerified: false,
     userId: '',
     wrongPassword: false,
+    signup: false
   }
 
   logInUser = async (event) => {
@@ -52,84 +53,100 @@ class LogIn extends React.Component {
       )
     }
 
+    if(this.state.signup){
+      return (
+          <Redirect to={{
+              pathname: "/signup"
+          }} />
+      )
+    }
+
     //username or password is wrong
     if (this.state.wrongPassword) {
       return (
-        
+
         <div class="jumbotron d-flex flex-column align-items-center min-vh-100 bg-white p-0">
-        <div class="container">
+          <div class="container">
 
             <form class="mx-auto p-3 mt-5" style={{ maxWidth: "800", border: "2px solid #1DA1F2", borderRadius: "20px" }} onSubmit={this.logInUser}>
-                <div class="pb-2">
-                    <span><h2>Log in to Twitter</h2></span>
+              <div class="pb-2">
+                <span><h2>Log in to Twitter</h2></span>
+              </div>
+              <div class="form-group mt-3 form-font">
+                <div class="bg-light rounded mt-3">
+                  <div class="ml-1">
+                    <span class="font-weight-light">Username</span>
+                  </div>
+                  <div>
+                    <input type="text" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ username: event.target.value })} />
+                  </div>
+                  <hr class="mt-0 border-0 boundary" />
                 </div>
-                <div class="form-group mt-3 form-font">
-                    <div class="bg-light rounded mt-3">
-                        <div class="ml-1">
-                            <span class="font-weight-light">Username</span>
-                        </div>
-                        <div>
-                            <input type="text" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ username: event.target.value })} />
-                        </div>
-                        <hr class="mt-0 border-0 boundary" />
-                    </div>
 
-                    <div class="bg-light rounded mt-3">
-                        <div class="ml-1">
-                            <span class="font-weight-light">Password</span>
-                        </div>
-                        <div>
-                            <input type="password" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ password: event.target.value })} />
-                        </div>
-                        <hr class="mt-0 border-0 boundary" />
-                    </div>
-
+                <div class="bg-light rounded mt-3">
+                  <div class="ml-1">
+                    <span class="font-weight-light">Password</span>
+                  </div>
+                  <div>
+                    <input type="password" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ password: event.target.value })} />
+                  </div>
+                  <hr class="mt-0 border-0 boundary" />
                 </div>
-                <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Log in</button>
+
+              </div>
+              <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Log in</button>
             </form>
+          </div>
+          <span>Wrong Username or Password</span>
+          <p className="mt-3">
+            Don't have an account?
+          </p>
+          <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }} onClick={event => this.setState({ signup: true })}>Sign Up</button>
         </div>
-        <span>Wrong Username or Password</span>
-    </div>
-          
-        
+
+
       )
     }
 
     return (
 
       <div class="jumbotron d-flex align-items-center min-vh-100 bg-white p-0">
-                <div class="container">
+        <div class="container">
 
-                    <form class="mx-auto p-3 mt-5" style={{ maxWidth: "800", border: "2px solid #1DA1F2", borderRadius: "20px" }} onSubmit={this.logInUser}>
-                        <div class="pb-2">
-                            <span><h2>Log in to Twitter</h2></span>
-                        </div>
-                        <div class="form-group mt-3 form-font">
-                            <div class="bg-light rounded mt-3">
-                                <div class="ml-1">
-                                    <span class="font-weight-light">Username</span>
-                                </div>
-                                <div>
-                                    <input type="text" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ username: event.target.value })} />
-                                </div>
-                                <hr class="mt-0 border-0 boundary" />
-                            </div>
-
-                            <div class="bg-light rounded mt-3">
-                                <div class="ml-1">
-                                    <span class="font-weight-light">Password</span>
-                                </div>
-                                <div>
-                                    <input type="password" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ password: event.target.value })} />
-                                </div>
-                                <hr class="mt-0 border-0 boundary" />
-                            </div>
-
-                        </div>
-                        <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Log in</button>
-                    </form>
-                </div>
+          <form class="mx-auto p-3 mt-5" style={{ maxWidth: "800", border: "2px solid #1DA1F2", borderRadius: "20px" }} onSubmit={this.logInUser}>
+            <div class="pb-2">
+              <span><h2>Log in to Twitter</h2></span>
             </div>
+            <div class="form-group mt-3 form-font">
+              <div class="bg-light rounded mt-3">
+                <div class="ml-1">
+                  <span class="font-weight-light">Username</span>
+                </div>
+                <div>
+                  <input type="text" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ username: event.target.value })} />
+                </div>
+                <hr class="mt-0 border-0 boundary" />
+              </div>
+
+              <div class="bg-light rounded mt-3">
+                <div class="ml-1">
+                  <span class="font-weight-light">Password</span>
+                </div>
+                <div>
+                  <input type="password" class="form-control bg-light border-0 pl-1 pr-1 pb-2 pt-1 h-75 outline" onChange={(event) => this.setState({ password: event.target.value })} />
+                </div>
+                <hr class="mt-0 border-0 boundary" />
+              </div>
+
+            </div>
+            <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Log in</button>
+          </form>
+          <p className="mt-3">
+            Don't have an account?
+          </p>
+          <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }} onClick={event => this.setState({ signup: true })}>Sign Up</button>
+        </div>
+      </div>
     )
   }
 }

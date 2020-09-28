@@ -9,7 +9,7 @@ const app = express()
 app.use(express.json())
 app.use(cors());
 
-port = 3001
+port = process.env.PORT || 3001
 process.setMaxListeners(0)
 mongoose.connect('mongodb://127.0.0.1:27017/twitter-clone', {
     useNewUrlParser: true,

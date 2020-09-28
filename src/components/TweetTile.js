@@ -1,6 +1,22 @@
 import React from 'react'
 
 const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile, onLike, onUnlike, liked, source, likedTweets, retweets, onRetweet, onUnretweet, retweeted, toRetweet, othersProfile }) => {
+  
+  const profileText = () => {
+    if(tweetDetails){
+      let name = tweetDetails.name.split(" ")
+      let s = name.map(name => {return name[0]})
+      return s[0] + s[1]
+    }
+
+    if(!tweetDetails && name){
+      let x = name.split(" ")
+      let s = x.map(y => {return y[0]})
+      return s[0] + s[1]
+    }
+    return null
+  }
+  
   //like + not retweet
   if (tweet !== '' && source === 'homepage' && likedTweets.includes(tweetId) && toRetweet && !retweets.includes(tweetId)) {
     return (
@@ -9,7 +25,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+                <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -49,7 +69,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -89,7 +113,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -129,7 +157,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -170,7 +202,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -207,7 +243,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -244,7 +284,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -282,7 +326,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -320,7 +368,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -358,7 +410,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -398,7 +454,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -438,7 +498,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">
@@ -478,7 +542,11 @@ const TweetTile = ({ tweet, tweetId, name, username, tweetDetails, onDeleteTile,
           <div class="d-flex flex-row">
             <div class="ml-3 mr-1 mt-2">
               <div style={{ width: "49px" }}>
-                <img class="img-fluid rounded-circle" style={{ width: "49px", height: "49px" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ"></img>
+              <div class="rounded-circle bg-info" style={{ width: "49px", height: "49px", position: "absolute" }} src="https://images.unsplash.com/photo-1553531384-411a247ccd73?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjcyMDI4fQ">
+                  <div align="center" style={{marginTop: "10%", position: "relative", fontSize: "1.5rem", color: "#ffffff"}}>
+                    {profileText()}
+                  </div>
+                </div>
               </div>
             </div>
             <div class="card-body p-0 ml-2 mr-1 mt-2 d-flex flex-column">

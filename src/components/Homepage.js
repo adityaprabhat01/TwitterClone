@@ -19,7 +19,8 @@ class Homepage extends React.Component {
     id: "",
     profile: false,
     searched: false,
-    searchId: ""
+    searchId: "",
+    signout: false
   }
 
   myHomepage = async () => {
@@ -280,6 +281,15 @@ class Homepage extends React.Component {
         />
       )
     }
+
+    if(this.state.signout){
+      return (
+          <Redirect to={{
+              pathname: "/login"
+          }} />
+      )
+    }
+
     if (this.state.myHomepage) {
       return (
         <div>
@@ -287,6 +297,9 @@ class Homepage extends React.Component {
           <div class="m-3">
             <div class="mx-auto" style={{ maxWidth: "600px" }}>
               <span>{this.state.name}</span>
+              <span>
+              <button class="btn btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px", float: 'right' }} onClick={event => this.setState({ signout: true })}>Sign Out</button>
+              </span>
             </div>
 
           </div>

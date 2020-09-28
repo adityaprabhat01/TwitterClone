@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Redirect } from "react-router-dom"
 
 class SignUp extends React.Component {
     state = { name: "", email: "", username: "", password: "", login: false };
@@ -16,6 +17,15 @@ class SignUp extends React.Component {
     };
 
     render() {
+
+        if(this.state.login){
+            return (
+                <Redirect to={{
+                    pathname: "/login"
+                }} />
+            )
+        }
+
         return (
             <div class="jumbotron d-flex align-items-center min-vh-100 bg-white p-0">
                 <div class="container">
@@ -68,6 +78,10 @@ class SignUp extends React.Component {
                         </div>
                         <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }}>Sign Up</button>
                     </form>
+                    <p className="mt-3">
+                        Already have an account?
+                    </p>
+                    <button class="btn btn-lg btn-primary border-0" style={{ backgroundColor: "#1DA1F2", borderRadius: "75px" }} onClick={event => this.setState({ login: true })}>Log In</button>
                 </div>
             </div>
         );

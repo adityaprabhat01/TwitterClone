@@ -35,7 +35,6 @@ class Profile extends React.Component {
     if (this.state.searchId) {
       const following = this.props.location.state.following
       const response = await axios.get(`http://localhost:3001/user/tweet/user/${this.state.searchId}`)
-
       response.data.tweetsToSend.map(tweets => {
         tweets.map(tweet => {
           var t = {
