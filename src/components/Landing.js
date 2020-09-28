@@ -34,7 +34,7 @@ class Landing extends React.Component {
                     <div class="mx-auto d-flex flex-column m-5" style={{ maxWidth: "800px" }}>
 
                         <div class="mx-auto" style={{ maxWidth: "400px" }}>
-                            <span class="mx-auto" style={{ fontFamily: "'Cabin Condensed', sans-serif", fontSize: "2rem" }}>Welcome to Twitter</span>
+                            <span class="mx-auto" style={{ fontFamily: "'Cabin Condensed', sans-serif", fontSize: "2rem" }}>Welcome to My Twitter</span>
                         </div>
 
                         <div class="d-flex flex-row justify-content-around mt-5">
