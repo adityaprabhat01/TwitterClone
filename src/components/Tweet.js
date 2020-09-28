@@ -5,7 +5,9 @@ class Tweet extends React.Component {
 
   onPostSubmit = (event) => {
     event.preventDefault();
-    this.props.onPostSubmit(this.state.text);
+    let x = this.state.text
+    this.setState({ text: "" })
+    this.props.onPostSubmit(x);
   };
 
   onTextChange = (event) => {
